@@ -56,6 +56,13 @@ export const useCartStore = create<CartState>((set, get) => ({
   couponError: null,
 
   addItem: (product, quantity = 1, selectedColor, selectedSize) => {
+    const hasToken = Boolean(
+      localStorage.getItem("shopsphere_token") || sessionStorage.getItem("shopsphere_token")
+    );
+    if (!hasToken) {
+      return;
+    }
+
     const items = [...get().items];
     const existingIndex = items.findIndex(
       (item) =>

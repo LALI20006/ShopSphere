@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Plus, Check, ShoppingCart } from "lucide-react";
 import { Product } from "../../types";
 import { ImageWithFallback } from "../common/ImageWithFallback";
 import { useCartStore } from "../../store/cartStore";
+import { useAuthStore } from "../../store/authStore";
 
 interface FrequentlyBoughtTogetherProps {
   mainProduct: Product;
@@ -13,6 +15,8 @@ export const FrequentlyBoughtTogether: React.FC<FrequentlyBoughtTogetherProps> =
   mainProduct,
   companionProduct,
 }) => {
+  const navigate = useNavigate();
+  const user = useAuthStore((s) => s.user);
   const addItem = useCartStore((s) => s.addItem);
   const [includeCompanion, setIncludeCompanion] = useState(true);
   const [isAdded, setIsAdded] = useState(false);
@@ -23,6 +27,23 @@ export const FrequentlyBoughtTogether: React.FC<FrequentlyBoughtTogetherProps> =
   const savings = originalBundleTotal - bundleTotal;
 
   const handleAddBundle = () => {
+    if (!user) {
+      try {
+        sessionStorage.setItem(
+          "shopsphere_pending_cart_item",
+          JSON.stringify({
+            product: mainProduct,
+            quantity: 1,
+          })
+        );
+      } catch (err) {}
+      navigate(
+        `/login?redirect=${encodeURIComponent(
+          window.location.pathname + window.location.search
+        )}&reason=cart`
+      );
+      return;
+    }
     addItem(mainProduct, 1);
     if (includeCompanion) {
       addItem(companionProduct, 1);

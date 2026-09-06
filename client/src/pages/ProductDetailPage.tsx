@@ -124,6 +124,25 @@ export const ProductDetailPage: React.FC = () => {
 
   const handleAddToCart = () => {
     if (isOutOfStock) return;
+    if (!user) {
+      try {
+        sessionStorage.setItem(
+          "shopsphere_pending_cart_item",
+          JSON.stringify({
+            product,
+            quantity,
+            selectedColor,
+            selectedSize,
+          })
+        );
+      } catch (err) {}
+      navigate(
+        `/login?redirect=${encodeURIComponent(
+          window.location.pathname + window.location.search
+        )}&reason=cart`
+      );
+      return;
+    }
     addItem(product, quantity, selectedColor, selectedSize);
     setAddedFeedback(true);
     setTimeout(() => setAddedFeedback(false), 2000);
@@ -131,6 +150,21 @@ export const ProductDetailPage: React.FC = () => {
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
+    if (!user) {
+      try {
+        sessionStorage.setItem(
+          "shopsphere_pending_cart_item",
+          JSON.stringify({
+            product,
+            quantity,
+            selectedColor,
+            selectedSize,
+          })
+        );
+      } catch (err) {}
+      navigate(`/login?redirect=${encodeURIComponent("/checkout")}&reason=cart`);
+      return;
+    }
     addItem(product, quantity, selectedColor, selectedSize);
     navigate("/checkout");
   };

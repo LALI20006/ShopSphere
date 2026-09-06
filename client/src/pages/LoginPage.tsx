@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Mail, ArrowRight, AlertCircle } from "lucide-react";
+import { Mail, ArrowRight, AlertCircle, ShoppingBag } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
+import { useCartStore } from "../store/cartStore";
 import { PasswordInput } from "../components/auth/PasswordInput";
 
 export const LoginPage: React.FC = () => {
@@ -19,6 +20,23 @@ export const LoginPage: React.FC = () => {
 
   useEffect(() => {
     if (user) {
+      try {
+        const pending = sessionStorage.getItem("shopsphere_pending_cart_item");
+        if (pending) {
+          const item = JSON.parse(pending);
+          sessionStorage.removeItem("shopsphere_pending_cart_item");
+          if (item && item.product) {
+            useCartStore
+              .getState()
+              .addItem(
+                item.product,
+                item.quantity || 1,
+                item.selectedColor,
+                item.selectedSize
+              );
+          }
+        }
+      } catch (err) {}
       navigate(redirect, { replace: true });
     }
   }, [user, redirect, navigate]);
@@ -85,6 +103,16 @@ export const LoginPage: React.FC = () => {
 
         {/* Card Box */}
         <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xl shadow-slate-200/50">
+          {searchParams.get("reason") === "cart" && (
+            <div
+              role="alert"
+              className="mb-5 p-3.5 bg-indigo-50 border border-indigo-200 rounded-2xl text-xs text-indigo-800 font-semibold flex items-center gap-2.5 animate-in fade-in slide-in-from-top-1"
+            >
+              <ShoppingBag className="w-4 h-4 text-indigo-600 flex-shrink-0" />
+              <span>Please sign in to add products to your shopping cart.</span>
+            </div>
+          )}
+
           {error && (
             <div
               role="alert"

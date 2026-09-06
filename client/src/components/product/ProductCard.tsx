@@ -35,6 +35,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     e.stopPropagation();
     if (isOutOfStock) return;
 
+    if (!user) {
+      try {
+        sessionStorage.setItem(
+          "shopsphere_pending_cart_item",
+          JSON.stringify({
+            product,
+            quantity: 1,
+            selectedColor: product.colors?.[0],
+            selectedSize: product.sizes?.[0],
+          })
+        );
+      } catch (err) {}
+      navigate(
+        `/login?redirect=${encodeURIComponent(
+          window.location.pathname + window.location.search
+        )}&reason=cart`
+      );
+      return;
+    }
+
     addItem(product, 1, product.colors?.[0], product.sizes?.[0]);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1800);

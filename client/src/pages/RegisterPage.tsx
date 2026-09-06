@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { User, Mail, ArrowRight, AlertCircle, CheckCircle2, XCircle } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
+import { useCartStore } from "../store/cartStore";
 import { PasswordInput } from "../components/auth/PasswordInput";
 import { PasswordRequirements } from "../components/auth/PasswordRequirements";
 import { PasswordStrengthMeter } from "../components/auth/PasswordStrengthMeter";
@@ -20,6 +21,23 @@ export const RegisterPage: React.FC = () => {
 
   useEffect(() => {
     if (user) {
+      try {
+        const pending = sessionStorage.getItem("shopsphere_pending_cart_item");
+        if (pending) {
+          const item = JSON.parse(pending);
+          sessionStorage.removeItem("shopsphere_pending_cart_item");
+          if (item && item.product) {
+            useCartStore
+              .getState()
+              .addItem(
+                item.product,
+                item.quantity || 1,
+                item.selectedColor,
+                item.selectedSize
+              );
+          }
+        }
+      } catch (err) {}
       navigate(redirect, { replace: true });
     }
   }, [user, redirect, navigate]);

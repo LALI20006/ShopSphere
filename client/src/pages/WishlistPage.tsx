@@ -1,18 +1,25 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, Trash2, ArrowRight, Check, AlertCircle, ShoppingBag } from "lucide-react";
 import { useWishlistStore } from "../store/wishlistStore";
 import { useCartStore } from "../store/cartStore";
+import { useAuthStore } from "../store/authStore";
 import { ImageWithFallback } from "../components/common/ImageWithFallback";
 import { PriceTag } from "../components/common/PriceTag";
 import { RatingStars } from "../components/common/RatingStars";
 
 export const WishlistPage: React.FC = () => {
+  const navigate = useNavigate();
+  const user = useAuthStore((s) => s.user);
   const { items, removeItem } = useWishlistStore();
   const addItemToCart = useCartStore((s) => s.addItem);
   const [movedItems, setMovedItems] = useState<{ [id: string]: boolean }>({});
 
   const handleMoveToCart = (product: any) => {
+    if (!user) {
+      navigate(`/login?redirect=${encodeURIComponent("/wishlist")}&reason=cart`);
+      return;
+    }
     addItemToCart(product, 1, product.colors?.[0], product.sizes?.[0]);
     removeItem(product.id);
     setMovedItems((prev) => ({ ...prev, [product.id]: true }));
