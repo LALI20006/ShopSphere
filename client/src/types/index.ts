@@ -47,6 +47,16 @@ export interface Brand {
   description?: string;
 }
 
+export interface ProductImage {
+  id: string;
+  productId: string;
+  variantId?: string | null;
+  imageUrl: string;
+  altText: string;
+  isPrimary: boolean;
+  sortOrder: number;
+}
+
 export interface Product {
   id: string;
   productId?: string;
@@ -71,6 +81,7 @@ export interface Product {
   stock: number;
   thumbnail?: string;
   images: string[];
+  productImages?: ProductImage[];
   variant?: string;
   color?: string;
   variantImages?: Record<string, string[]>;

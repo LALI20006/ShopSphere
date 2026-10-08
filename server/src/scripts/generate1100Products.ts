@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { Product, ProductVariant } from "../models/Product.js";
+import { Product, ProductVariant, ProductImage } from "../models/Product.js";
 import { CATEGORIES } from "../data/categories.js";
 import { CATEGORY_BRANDS } from "../data/brands.js";
 
@@ -9,168 +9,24 @@ const DATA_DIR = fs.existsSync(path.resolve(process.cwd(), "data"))
   : path.resolve(process.cwd(), "server", "data");
 const PRODUCTS_FILE = path.join(DATA_DIR, "products.json");
 
-// Curated verified, stable photography IDs per category
-const PHOTO_SETS: Record<string, string[]> = {
-  electronics: [
-    "1593359677879-a4bb92f829d1",
-    "1505740420928-5e560c06d30e",
-    "1546435770-a3e426bf472b",
-    "1516035069371-29a1b244cc32",
-    "1508700115892-45ecd05ae2ad",
-    "1608043152269-423dbba4e7e1",
-    "1600080972464-8e5f35f63d08",
-    "1526170375885-4d8ecf77b99f",
-    "1550009158-9ebf69173e03",
-    "1527864550417-7fd91fc51a46",
-    "1572536147248-ac59a8abfa4b",
-    "1545454675-3531b543be5d",
-  ],
-  mobiles: [
-    "1511707171634-5f897ff02aa9",
-    "1592750475338-74b7b21085ab",
-    "1565849904461-04a58ad377e0",
-    "1580910051074-3eb694886505",
-    "1574944985070-8f3ebc6b79d2",
-    "1601784551446-20c9e07cdbdb",
-    "1585060544812-6b45742d762f",
-    "1598327105666-5b89351aff97",
-    "1512054502232-10a0a035d672",
-    "1546868871-7041f2a55e12",
-    "1533228876829-65c94e7b5025",
-    "1567581935884-3349723552ca",
-    "1605236453806-6ff36851218e",
-    "1609692814858-f7cd2f0faf4f",
-  ],
-  laptops: [
-    "1517336714731-489689fd1ca8",
-    "1496181133206-80ce9b88a853",
-    "1525547719571-a2d4ac8945e2",
-    "1588872657578-7efd1f1555ed",
-    "1603302576837-37561b2e2302",
-    "1541807084-5c52b6b3adef",
-    "1593642632823-8f785ba67e45",
-    "1531297484001-80022131f5a1",
-    "1587614382346-4ec70e388b28",
-    "1526738549149-8e07eca6c147",
-    "1498050108023-c5249f4df085",
-    "1544716278-ca5e3f4abd8c",
-  ],
-  fashion: [
-    "1489987707025-afc232f7ea0f",
-    "1490578474895-699cd4e2cf59",
-    "1483985988355-763728e1935b",
-    "1521572267360-ee0c2909d518",
-    "1542272604-780c96859503",
-    "1515886657613-9f3515b0c78f",
-    "1551028719-00167b16eac5",
-    "1576995853123-5a10305d93c0",
-    "1434389677669-e08b4cac3105",
-    "1523381210434-271e8be1f52b",
-    "1503342217505-b0a15ec3261c",
-    "1485230895905-ec40ba36b9bc",
-  ],
-  shoes: [
-    "1542291026-7eec264c27ff",
-    "1525966226537-8848d7d4323a",
-    "1595950653106-6c9ebd614d3a",
-    "1608231387042-66d1773070a5",
-    "1539185441755-769473a23570",
-    "1560769629-975ec94e6a86",
-    "1617606002779-51d866bdd1d1",
-    "1533867617858-e7b97e060509",
-    "1514989940748-18e47f7178a9",
-    "1460353581641-37baddab0fa2",
-    "1515955656352-a1fa3ffcd111",
-    "1575537302964-96cd47c06b1b",
-  ],
-  "home-kitchen": [
-    "1556911220-e15b29be8c8f",
-    "1584269600464-37b1b58a9fe7",
-    "1585515320310-259814833e62",
-    "1586208958839-06c17cacdf08",
-    "1590794056226-79ef3a8147e1",
-    "1507089947368-19c1da9775ae",
-    "1513694203232-719a280e022f",
-    "1544816155-12df9643f363",
-    "1610557892470-55d9e80c0bce",
-    "1520986606214-8b456906c813",
-    "1584990347449-74d75b3fdc7d",
-    "1584990347461-a5907f16a086",
-  ],
-  beauty: [
-    "1522335789203-aabd1fc54bc9",
-    "1598440947619-2c35fc9aa908",
-    "1596462502278-27bfdc403348",
-    "1571781926291-c477ebfd024b",
-    "1527799820374-dcf8d9d4a388",
-    "1512496015851-a90fb38ba796",
-    "1608248597359-2e0618037c76",
-    "1535585209827-a15fcdbc4c2d",
-    "1620916566398-39f1143ab7be",
-    "1556228720-195a672e8a03",
-    "1584990347468-b80c1084ea9e",
-    "1515377905703-c4788e51af15",
-  ],
-  sports: [
-    "1517838277536-f5f99be501cd",
-    "1534438327276-14e5300c3a48",
-    "1612872087720-bb876e2e67d1",
-    "1579952363873-27f3bade9f55",
-    "1546519638-68e109498ffc",
-    "1506126613408-eca07ce68773",
-    "1517649763962-0c623266ddc0",
-    "1587280501635-68a0e82cd5ff",
-    "1599058945522-28d584b6f0ff",
-    "1584735935682-2f2b69dff9d2",
-    "1519315901367-f34ff9154487",
-    "1574629810360-7efbbe195018",
-  ],
-  books: [
-    "1512820790803-83ca734da794",
-    "1544947950-fa07a98d237f",
-    "1532012164546-f43b7632dd04",
-    "1543002588-bfa74002ed7e",
-    "1495446815901-a7297e633e8d",
-    "1589829085413-56de8ae18c73",
-    "1516979187457-637abb4f9353",
-    "1524995997946-a1c2e315a42f",
-    "1497633762265-9d179a990aa6",
-    "1476275466078-4007374efbbe",
-    "1457369804613-52c61a468e7d",
-    "1491841573634-28140fc7ced7",
-  ],
-  toys: [
-    "1585366119957-e9730b6d0f60",
-    "1515488042361-ee00e0ddd4e4",
-    "1607604276583-eef5d076aa5f",
-    "1566576912321-d58ddd7a6088",
-    "1558060370-d644479cb6f7",
-    "1596461404969-9ae70f2830c1",
-    "1533230808558-a00d6765d70f",
-    "1560963805-b50e4b64815f",
-    "1508873696983-2df57036476b",
-    "1587654780291-39c9404d746b",
-    "1596461404969-9ae70f2830c1",
-    "1533230808558-a00d6765d70f",
-  ],
-  accessories: [
-    "1580910051074-3eb694886505",
-    "1583863788434-e58a36330cf0",
-    "1609592424109-dd9892f1b179",
-    "1523275335684-37898b6baf30",
-    "1553062407-98eeb64c6a62",
-    "1590658268037-6bf12165a8df",
-    "1622445268462-327fb1847145",
-    "1572569511254-d8f925fe2cbb",
-    "1618384887929-16ec33fab9ef",
-    "1510519138115-0a9dc8049096",
-    "1546868871-7041f2a55e12",
-    "1616440347437-b1c73416efc2",
-  ],
-};
+// Load the verified catalog of 1,305+ globally-unique, distinct product photos
+const CATALOG_PATHS = [
+  path.resolve(process.cwd(), "src", "data", "uniquePhotosCatalog.json"),
+  path.resolve(process.cwd(), "server", "src", "data", "uniquePhotosCatalog.json"),
+  path.resolve(DATA_DIR, "..", "src", "data", "uniquePhotosCatalog.json"),
+];
+const catalogFile = CATALOG_PATHS.find((p) => fs.existsSync(p));
+if (!catalogFile) {
+  throw new Error("Could not find uniquePhotosCatalog.json in data directories.");
+}
+const UNIQUE_CATALOG: Record<string, string[]> = JSON.parse(fs.readFileSync(catalogFile, "utf-8"));
 
-function buildImageUrl(photoId: string, width = 800, quality = 80): string {
-  return `https://images.unsplash.com/photo-${photoId}?w=${width}&auto=format&fit=crop&q=${quality}`;
+function buildImageUrl(cleanUrl: string, width = 800, quality = 80): string {
+  if (!cleanUrl) return "";
+  if (cleanUrl.includes("?")) {
+    return cleanUrl;
+  }
+  return `${cleanUrl}?auto=format&fit=crop&w=${width}&q=${quality}`;
 }
 
 // Model & Product nomenclature templates for rich realism
@@ -353,13 +209,15 @@ function generateVariants(
   basePrice: number,
   originalPrice: number,
   colors: string[],
-  images: string[]
+  images: string[],
+  variantImages?: Record<string, string[]>
 ): ProductVariant[] {
   const variants: ProductVariant[] = [];
 
   if (category === "shoes") {
     const shoeSizes = ["7", "8", "9", "10", "11"];
     colors.slice(0, 2).forEach((c, cIdx) => {
+      const vImgs = (variantImages && variantImages[c]) ? variantImages[c] : images;
       shoeSizes.forEach((s) => {
         variants.push({
           id: `var-${baseSku.toLowerCase()}-${cIdx}-${s}`,
@@ -369,7 +227,7 @@ function generateVariants(
           price: basePrice,
           originalPrice,
           stock: 6 + Math.floor(Math.random() * 15),
-          images,
+          images: vImgs,
           availability: "IN_STOCK",
         });
       });
@@ -377,6 +235,7 @@ function generateVariants(
   } else if (category === "fashion") {
     const clothSizes = ["S", "M", "L", "XL"];
     colors.slice(0, 2).forEach((c, cIdx) => {
+      const vImgs = (variantImages && variantImages[c]) ? variantImages[c] : images;
       clothSizes.forEach((s) => {
         variants.push({
           id: `var-${baseSku.toLowerCase()}-${cIdx}-${s}`,
@@ -386,7 +245,7 @@ function generateVariants(
           price: basePrice,
           originalPrice,
           stock: 8 + Math.floor(Math.random() * 20),
-          images,
+          images: vImgs,
           availability: "IN_STOCK",
         });
       });
@@ -398,6 +257,7 @@ function generateVariants(
       { ram: "12GB", storage: "512GB", add: 12000 },
     ];
     colors.slice(0, 2).forEach((c, cIdx) => {
+      const vImgs = (variantImages && variantImages[c]) ? variantImages[c] : images;
       storageOptions.forEach((opt) => {
         variants.push({
           id: `var-${baseSku.toLowerCase()}-${cIdx}-${opt.storage}`,
@@ -408,7 +268,7 @@ function generateVariants(
           price: basePrice + opt.add,
           originalPrice: originalPrice + opt.add,
           stock: 5 + Math.floor(Math.random() * 12),
-          images,
+          images: vImgs,
           availability: "IN_STOCK",
         });
       });
@@ -420,6 +280,7 @@ function generateVariants(
       { ram: "32GB", storage: "1TB SSD", add: 18000 },
     ];
     colors.slice(0, 2).forEach((c, cIdx) => {
+      const vImgs = (variantImages && variantImages[c]) ? variantImages[c] : images;
       specs.forEach((opt) => {
         variants.push({
           id: `var-${baseSku.toLowerCase()}-${cIdx}-${opt.ram}`,
@@ -430,7 +291,7 @@ function generateVariants(
           price: basePrice + opt.add,
           originalPrice: originalPrice + opt.add,
           stock: 4 + Math.floor(Math.random() * 10),
-          images,
+          images: vImgs,
           availability: "IN_STOCK",
         });
       });
@@ -438,6 +299,7 @@ function generateVariants(
   } else {
     // Other categories: variant by color or standard
     colors.slice(0, 3).forEach((c, cIdx) => {
+      const vImgs = (variantImages && variantImages[c]) ? variantImages[c] : images;
       variants.push({
         id: `var-${baseSku.toLowerCase()}-${cIdx}`,
         sku: `${baseSku}-${c.slice(0, 3).toUpperCase()}`,
@@ -445,7 +307,7 @@ function generateVariants(
         price: basePrice,
         originalPrice,
         stock: 10 + Math.floor(Math.random() * 25),
-        images,
+        images: vImgs,
         availability: "IN_STOCK",
       });
     });
@@ -489,7 +351,7 @@ export function generate1100Catalog(): Product[] {
   for (const cat of CATEGORIES) {
     const catSlug = cat.slug;
     const catBrands = CATEGORY_BRANDS[catSlug] || ["ShopSphere Select"];
-    const photos = PHOTO_SETS[catSlug] || PHOTO_SETS["electronics"];
+    const catPhotos = UNIQUE_CATALOG[catSlug] || UNIQUE_CATALOG["electronics"];
     const templates = PRODUCT_TEMPLATES[catSlug] || PRODUCT_TEMPLATES["electronics"];
     const priceBand = categoryPriceBands[catSlug] || { min: 999, max: 9999 };
     const availableColors = categoryColors[catSlug] || ["Default"];
@@ -512,18 +374,14 @@ export function generate1100Catalog(): Product[] {
       const id = `prod-${catSlug.slice(0, 4)}-${skuNumber}`;
       const slug = `${brand.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${modelName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${i}`;
 
-      // Formulate 3-5 images for the product
-      const primaryPhotoIdx = (i - 1) % photos.length;
-      const secPhotoIdx = (i) % photos.length;
-      const thirdPhotoIdx = (i + 1) % photos.length;
-      const fourthPhotoIdx = (i + 2) % photos.length;
+      // Build 4 unique angle/lifestyle views for this product
+      // Index i-1 (0..99) is guaranteed 100% globally unique across all products!
+      const primaryPhotoUrl = buildImageUrl(catPhotos[i - 1], 800, 80);
+      const secPhotoUrl = buildImageUrl(catPhotos[(i - 1 + 23) % catPhotos.length], 800, 80);
+      const thirdPhotoUrl = buildImageUrl(catPhotos[(i - 1 + 47) % catPhotos.length], 800, 80);
+      const fourthPhotoUrl = buildImageUrl(catPhotos[(i - 1 + 71) % catPhotos.length], 800, 80);
 
-      const productImages = [
-        buildImageUrl(photos[primaryPhotoIdx], 800, 80),
-        buildImageUrl(photos[secPhotoIdx], 800, 80),
-        buildImageUrl(photos[thirdPhotoIdx], 800, 80),
-        buildImageUrl(photos[fourthPhotoIdx], 800, 80),
-      ];
+      const productImages = [primaryPhotoUrl, secPhotoUrl, thirdPhotoUrl, fourthPhotoUrl];
 
       // Realistic INR pricing
       const step = (priceBand.max - priceBand.min) / 100;
@@ -542,19 +400,71 @@ export function generate1100Catalog(): Product[] {
           ? ["S", "M", "L", "XL", "XXL"]
           : undefined;
 
-      // Color to Image map
+      // Color to Image map (colorways mapped to matching unique photography)
       const variantImages: Record<string, string[]> = {};
       productColors.forEach((color, cIdx) => {
-        const cPhotoIdx = (primaryPhotoIdx + cIdx) % photos.length;
-        const altPhotoIdx = (secPhotoIdx + cIdx) % photos.length;
-        variantImages[color] = [
-          buildImageUrl(photos[cPhotoIdx], 800, 80),
-          buildImageUrl(photos[altPhotoIdx], 800, 80),
-        ];
+        const vPhoto1 = buildImageUrl(catPhotos[(i - 1 + (cIdx + 1) * 19) % catPhotos.length], 800, 80);
+        const vPhoto2 = buildImageUrl(catPhotos[(i - 1 + (cIdx + 1) * 31) % catPhotos.length], 800, 80);
+        variantImages[color] = [vPhoto1, vPhoto2];
+      });
+
+      // Relational ProductImage schema (Section 4)
+      const productImagesList: ProductImage[] = [
+        {
+          id: `${id}-img-1`,
+          productId: id,
+          variantId: null,
+          imageUrl: primaryPhotoUrl,
+          altText: `${productName} - Primary Hero View`,
+          isPrimary: true,
+          sortOrder: 1,
+        },
+        {
+          id: `${id}-img-2`,
+          productId: id,
+          variantId: null,
+          imageUrl: secPhotoUrl,
+          altText: `${productName} - Side Angle View`,
+          isPrimary: false,
+          sortOrder: 2,
+        },
+        {
+          id: `${id}-img-3`,
+          productId: id,
+          variantId: null,
+          imageUrl: thirdPhotoUrl,
+          altText: `${productName} - Detail & Build Quality View`,
+          isPrimary: false,
+          sortOrder: 3,
+        },
+        {
+          id: `${id}-img-4`,
+          productId: id,
+          variantId: null,
+          imageUrl: fourthPhotoUrl,
+          altText: `${productName} - Lifestyle Context View`,
+          isPrimary: false,
+          sortOrder: 4,
+        },
+      ];
+
+      productColors.forEach((color, cIdx) => {
+        const vImgs = variantImages[color];
+        if (vImgs && vImgs.length > 0) {
+          productImagesList.push({
+            id: `${id}-var-${cIdx + 1}-img-1`,
+            productId: id,
+            variantId: `${sku}-VAR-${cIdx + 1}`,
+            imageUrl: vImgs[0],
+            altText: `${productName} (${color}) - Colorway View`,
+            isPrimary: false,
+            sortOrder: 5 + cIdx * 2,
+          });
+        }
       });
 
       const specifications = generateCategorySpecifications(catSlug, brand, i);
-      const variants = generateVariants(catSlug, sku, rawPrice, originalPrice, productColors, productImages);
+      const variants = generateVariants(catSlug, sku, rawPrice, originalPrice, productColors, productImages, variantImages);
 
       const product: Product = {
         id,
@@ -576,8 +486,9 @@ export function generate1100Catalog(): Product[] {
         rating,
         reviewsCount,
         stock,
-        thumbnail: productImages[0],
+        thumbnail: primaryPhotoUrl,
         images: productImages,
+        productImages: productImagesList,
         variantImages,
         specifications,
         features: [

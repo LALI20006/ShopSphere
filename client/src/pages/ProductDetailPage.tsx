@@ -119,17 +119,52 @@ export const ProductDetailPage: React.FC = () => {
   }
 
   const inWishlist = isInWishlist(product.id);
-  const isOutOfStock = product.stock <= 0;
-  const isLowStock = product.stock > 0 && product.stock <= 4;
+
+  // Active variant resolution based on color and size selection (Requirement 8)
+  const activeVariant =
+    product.variants?.find(
+      (v) =>
+        (!selectedColor || v.color?.toLowerCase() === selectedColor.toLowerCase()) &&
+        (!selectedSize || v.size?.toLowerCase() === selectedSize.toLowerCase())
+    ) ||
+    product.variants?.find(
+      (v) => !selectedColor || v.color?.toLowerCase() === selectedColor.toLowerCase()
+    );
+
+  const displaySku = activeVariant?.sku || product.sku;
+  const displayPrice = activeVariant?.price ?? product.price;
+  const displayOriginalPrice = activeVariant?.originalPrice ?? product.originalPrice;
+  const displayStock = activeVariant?.stock ?? product.stock;
+  const displayDiscount =
+    displayOriginalPrice > displayPrice
+      ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100)
+      : product.discountPercent;
+
+  const isOutOfStock = displayStock <= 0;
+  const isLowStock = displayStock > 0 && displayStock <= 4;
+
+  const displayImages =
+    (selectedColor && product.variantImages && product.variantImages[selectedColor]) ||
+    (activeVariant?.images && activeVariant.images.length > 0 ? activeVariant.images : product.images);
+
+  const getProductForCart = () => ({
+    ...product,
+    sku: displaySku,
+    price: displayPrice,
+    originalPrice: displayOriginalPrice,
+    stock: displayStock,
+    thumbnail: displayImages[0] || product.thumbnail,
+  });
 
   const handleAddToCart = () => {
     if (isOutOfStock) return;
+    const cartProduct = getProductForCart();
     if (!user) {
       try {
         sessionStorage.setItem(
           "shopsphere_pending_cart_item",
           JSON.stringify({
-            product,
+            product: cartProduct,
             quantity,
             selectedColor,
             selectedSize,
@@ -143,19 +178,20 @@ export const ProductDetailPage: React.FC = () => {
       );
       return;
     }
-    addItem(product, quantity, selectedColor, selectedSize);
+    addItem(cartProduct, quantity, selectedColor, selectedSize);
     setAddedFeedback(true);
     setTimeout(() => setAddedFeedback(false), 2000);
   };
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
+    const cartProduct = getProductForCart();
     if (!user) {
       try {
         sessionStorage.setItem(
           "shopsphere_pending_cart_item",
           JSON.stringify({
-            product,
+            product: cartProduct,
             quantity,
             selectedColor,
             selectedSize,
@@ -165,7 +201,7 @@ export const ProductDetailPage: React.FC = () => {
       navigate(`/login?redirect=${encodeURIComponent("/checkout")}&reason=cart`);
       return;
     }
-    addItem(product, quantity, selectedColor, selectedSize);
+    addItem(cartProduct, quantity, selectedColor, selectedSize);
     navigate("/checkout");
   };
 
@@ -218,10 +254,7 @@ export const ProductDetailPage: React.FC = () => {
         {/* Left Column: Interactive Image Gallery (Span 5) */}
         <div className="lg:col-span-5">
           <ProductGallery
-            images={
-              (selectedColor && product.variantImages && product.variantImages[selectedColor]) ||
-              product.images
-            }
+            images={displayImages}
             productName={product.name}
             category={product.category}
             subcategory={product.subcategory}
@@ -236,7 +269,7 @@ export const ProductDetailPage: React.FC = () => {
                 Brand: {product.brand}
               </span>
               <span className="text-slate-300">•</span>
-              <span className="text-xs text-slate-500 font-medium">SKU: {product.sku}</span>
+              <span className="text-xs text-slate-500 font-medium">SKU: {displaySku}</span>
             </div>
 
             <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug">
@@ -261,13 +294,13 @@ export const ProductDetailPage: React.FC = () => {
           {/* Pricing Box */}
           <div className="p-4 bg-slate-50/80 rounded-2xl border border-slate-200/80 space-y-1">
             <PriceTag
-              price={product.price}
-              originalPrice={product.originalPrice}
-              discountPercent={product.discountPercent}
+              price={displayPrice}
+              originalPrice={displayOriginalPrice}
+              discountPercent={displayDiscount}
               size="lg"
             />
             <p className="text-[11px] text-slate-500 font-medium">
-              Inclusive of all taxes • EMI starts at {formatINR(Math.round(product.price / 12))}/month
+              Inclusive of all taxes • EMI starts at {formatINR(Math.round(displayPrice / 12))}/month
             </p>
           </div>
 
@@ -298,7 +331,7 @@ export const ProductDetailPage: React.FC = () => {
             onSelectColor={setSelectedColor}
             onSelectSize={setSelectedSize}
             quantity={quantity}
-            maxStock={product.stock}
+            maxStock={displayStock}
             onQuantityChange={setQuantity}
           />
 
@@ -327,7 +360,7 @@ export const ProductDetailPage: React.FC = () => {
             <div>
               <span className="text-xs text-slate-500 block">Total Price:</span>
               <span className="text-2xl font-extrabold text-slate-900">
-                {formatINR(product.price * quantity)}
+                {formatINR(displayPrice * quantity)}
               </span>
             </div>
 
@@ -374,7 +407,7 @@ export const ProductDetailPage: React.FC = () => {
               {isOutOfStock ? (
                 <span className="text-rose-600 font-bold">Currently Out of Stock</span>
               ) : isLowStock ? (
-                <span className="text-amber-600 font-bold">Only {product.stock} left in stock - Order soon!</span>
+                <span className="text-amber-600 font-bold">Only {displayStock} left in stock - Order soon!</span>
               ) : (
                 <span className="text-emerald-700 font-bold">In Stock. Ready to Ship.</span>
               )}

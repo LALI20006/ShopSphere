@@ -1,3 +1,6 @@
+import { ProductImage } from "./ProductImage.js";
+export { ProductImage };
+
 export interface ProductVariant {
   id: string;
   sku: string;
@@ -44,6 +47,7 @@ export interface Product {
   stock: number;
   thumbnail?: string;
   images: string[];
+  productImages?: ProductImage[];
   variant?: string;
   color?: string;
   variantImages?: Record<string, string[]>;
