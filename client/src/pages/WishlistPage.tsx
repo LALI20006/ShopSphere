@@ -95,9 +95,13 @@ export const WishlistPage: React.FC = () => {
                   className="block aspect-square w-full bg-slate-50 p-6 relative overflow-hidden"
                 >
                   <ImageWithFallback
-                    src={product.images[0]}
+                    src={product.thumbnail || product.images[0]}
                     alt={product.name}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                    category={product.category}
+                    subcategory={product.subcategory}
+                    productName={product.name}
+                    fit="contain"
+                    className="w-full h-full group-hover:scale-105 transition-transform duration-300"
                   />
                   {product.discountPercent > 0 && (
                     <span className="absolute bottom-3 left-3 bg-rose-600 text-white text-[11px] font-black px-2 py-0.5 rounded shadow">

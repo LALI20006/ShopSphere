@@ -1,51 +1,97 @@
-import React, { useState } from "react";
-import { Package } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { getCategoryFallbackImage } from "../../utils/categoryFallbacks";
+import { isImageSafe, isImageCategoryCompatible } from "../../utils/imageSafety";
 
-interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   className?: string;
+  category?: string;
+  subcategory?: string;
+  productName?: string;
   fallbackText?: string;
+  fit?: "contain" | "cover";
 }
 
 export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   src,
   alt,
   className = "",
+  category,
+  subcategory,
+  productName,
   fallbackText,
+  fit = "contain",
+  loading = "lazy",
   ...props
 }) => {
-  const [error, setError] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const fallbackUrl = getCategoryFallbackImage(category, subcategory, productName || alt);
 
-  // Fallback branded gradient placeholder if network fails or URL is invalid
-  if (error || !src) {
-    return (
-      <div
-        className={`flex flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-indigo-50/50 text-slate-400 p-4 select-none ${className}`}
-      >
-        <Package className="w-8 h-8 text-indigo-400/80 stroke-[1.5] mb-1 animate-pulse" />
-        <span className="text-[11px] font-medium text-slate-500 text-center line-clamp-2 px-2">
-          {fallbackText || alt || "ShopSphere Product"}
-        </span>
-      </div>
-    );
-  }
+  // Initial safety and category-compatibility check on incoming src
+  const isValidCandidate = (url: string) =>
+    Boolean(url && isImageSafe(url) && isImageCategoryCompatible(url, category, subcategory));
+
+  const initialSrc = isValidCandidate(src) ? src : fallbackUrl;
+  const isDataUri = initialSrc.startsWith("data:");
+
+  const [currentSrc, setCurrentSrc] = useState<string>(initialSrc);
+  const [hasFailed, setHasFailed] = useState<boolean>(!isValidCandidate(src));
+  const [loaded, setLoaded] = useState<boolean>(isDataUri);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (!isValidCandidate(src)) {
+      setCurrentSrc(fallbackUrl);
+      setHasFailed(true);
+      setLoaded(true);
+    } else {
+      setCurrentSrc(src);
+      setHasFailed(false);
+      // If already a data URI or cached complete image
+      if (src.startsWith("data:")) {
+        setLoaded(true);
+      } else if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+        setLoaded(true);
+      } else {
+        setLoaded(false);
+      }
+    }
+  }, [src, category, subcategory, fallbackUrl]);
+
+  // Check if image completed loading before React event listener attached
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, [currentSrc]);
+
+  const handleError = () => {
+    if (!hasFailed) {
+      setHasFailed(true);
+      setCurrentSrc(fallbackUrl);
+      setLoaded(true);
+    }
+  };
+
+  const objectFitClass = fit === "contain" ? "object-contain" : "object-cover";
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
-      {!loaded && (
-        <div className="absolute inset-0 bg-slate-200/70 animate-pulse" />
+    <div className={`relative overflow-hidden bg-slate-50 flex items-center justify-center ${className}`}>
+      {!loaded && !hasFailed && (
+        <div className="absolute inset-0 bg-slate-100/60 animate-pulse flex items-center justify-center pointer-events-none">
+          <div className="w-8 h-8 rounded-full border-2 border-indigo-200 border-t-indigo-600 animate-spin opacity-40" />
+        </div>
       )}
       <img
-        src={src}
+        ref={imgRef}
+        src={currentSrc}
         alt={alt}
-        loading="lazy"
+        loading={loading}
         onLoad={() => setLoaded(true)}
-        onError={() => setError(true)}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${
+        onError={handleError}
+        className={`w-full h-full ${objectFitClass} transition-opacity duration-300 ${
           loaded ? "opacity-100" : "opacity-0"
-        }`}
+        } ${hasFailed ? "p-2" : ""}`}
         {...props}
       />
     </div>

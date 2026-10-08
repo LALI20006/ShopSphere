@@ -8,7 +8,10 @@ import { Order, OrderStatus, TrackingStep } from "../models/Order.js";
 import { Review, Coupon } from "../models/Review.js";
 import { CATEGORIES, Category } from "../data/categories.js";
 import { SEED_PRODUCTS } from "../data/seedProducts.js";
-import { generateCompleteCatalog } from "../data/generators/index.js";
+import { generate1100Catalog } from "../scripts/generate1100Products.js";
+import { ALL_BRANDS, CATEGORY_BRANDS } from "../data/brands.js";
+import { Brand } from "../models/Brand.js";
+import { sanitizeProduct } from "./imageSafety.js";
 
 const DATA_DIR = fs.existsSync(path.resolve(process.cwd(), "data"))
   ? path.resolve(process.cwd(), "data")
@@ -93,12 +96,12 @@ export class DataStore {
         console.log(`[DataStore] Loaded ${this.data.products.length} products from products.json`);
       } catch (err) {
         console.error("Error reading products.json, generating catalog fallback:", err);
-        this.data.products = generateCompleteCatalog();
+        this.data.products = generate1100Catalog();
         this.persistProducts();
       }
     } else {
-      console.log("[DataStore] products.json not found, generating complete catalog...");
-      this.data.products = generateCompleteCatalog();
+      console.log("[DataStore] products.json not found, generating 1,100 catalog...");
+      this.data.products = generate1100Catalog();
       this.persistProducts();
     }
 
@@ -399,18 +402,74 @@ export class DataStore {
       result = result.filter((p) => brands.includes(p.brand.toLowerCase()));
     }
 
-    // Search query
+    // Smart Search Query with Token Matching & Relevance Scoring
     if (query.search) {
-      const q = query.search.toLowerCase().trim();
-      result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.brand.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q) ||
-          p.tags.some((t) => t.toLowerCase().includes(q)) ||
-          p.subcategory.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q)
-      );
+      const rawSearch = query.search.toLowerCase();
+      const searchTokens = rawSearch
+        .replace(/['"’`]/g, "")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim()
+        .split(/\s+/)
+        .filter((t) => t.length > 0);
+
+      const stems = searchTokens.map((t) => (t.endsWith("s") && t.length > 3 ? t.slice(0, -1) : t));
+      const scoredResults: { product: Product; score: number }[] = [];
+
+      for (const p of result) {
+        const nameClean = p.name.toLowerCase().replace(/['"’`]/g, "");
+        const catClean = p.category.toLowerCase().replace(/['"’`]/g, "");
+        const subClean = p.subcategory.toLowerCase().replace(/['"’`]/g, "");
+        const brandClean = p.brand.toLowerCase().replace(/['"’`]/g, "");
+        const descClean = (p.description || "").toLowerCase().replace(/['"’`]/g, "");
+        const tagsClean = (p.tags || []).join(" ").toLowerCase().replace(/['"’`]/g, "");
+
+        let score = 0;
+        let allTokensMatch = true;
+
+        for (let idx = 0; idx < searchTokens.length; idx++) {
+          const tok = searchTokens[idx];
+          const stem = stems[idx];
+
+          const inName = nameClean.includes(tok) || nameClean.includes(stem);
+          const inSub = subClean.includes(tok) || subClean.includes(stem);
+          const inCat = catClean.includes(tok) || catClean.includes(stem);
+          const inBrand = brandClean.includes(tok) || brandClean.includes(stem);
+          const inTags = tagsClean.includes(tok) || tagsClean.includes(stem);
+          const inDesc = descClean.includes(tok) || descClean.includes(stem);
+
+          if (inName || inSub || inCat || inBrand || inTags || inDesc) {
+            if (inName) score += 50;
+            if (inSub) score += 40;
+            if (inCat) score += 20;
+            if (inBrand) score += 30;
+            if (inTags) score += 15;
+            if (inDesc) score += 5;
+          } else {
+            allTokensMatch = false;
+            break;
+          }
+        }
+
+        if (allTokensMatch && score > 0) {
+          scoredResults.push({ product: p, score });
+        }
+      }
+
+      if (scoredResults.length > 0) {
+        scoredResults.sort((a, b) => b.score - a.score);
+        result = scoredResults.map((sr) => sr.product);
+      } else {
+        const q = query.search.toLowerCase().trim();
+        result = result.filter(
+          (p) =>
+            p.name.toLowerCase().includes(q) ||
+            p.brand.toLowerCase().includes(q) ||
+            p.description.toLowerCase().includes(q) ||
+            p.tags.some((t) => t.toLowerCase().includes(q)) ||
+            p.subcategory.toLowerCase().includes(q) ||
+            p.category.toLowerCase().includes(q)
+        );
+      }
     }
 
     // Price bounds
@@ -470,7 +529,7 @@ export class DataStore {
     const page = Math.max(1, Number(query.page || 1));
     const limit = Math.max(1, Number(query.limit || 24));
     const totalPages = Math.ceil(total / limit);
-    const paginated = result.slice((page - 1) * limit, page * limit);
+    const paginated = result.slice((page - 1) * limit, page * limit).map(sanitizeProduct);
 
     return {
       products: paginated,
@@ -483,12 +542,13 @@ export class DataStore {
   public getProductByIdOrSlug(identifier: string): Product | undefined {
     const clean = identifier.trim();
     const fromId = this.productsById.get(clean);
-    if (fromId) return fromId;
+    if (fromId) return sanitizeProduct(fromId);
 
     const fromSlug = this.productsBySlug.get(clean.toLowerCase());
-    if (fromSlug) return fromSlug;
+    if (fromSlug) return sanitizeProduct(fromSlug);
 
-    return this.data.products.find((p) => p.id === identifier || p.slug === identifier);
+    const rawFound = this.data.products.find((p) => p.id === identifier || p.slug === identifier);
+    return rawFound ? sanitizeProduct(rawFound) : undefined;
   }
 
   public getSearchSuggestions(query: string): { name: string; brand: string; category: string; slug: string }[] {
@@ -516,15 +576,15 @@ export class DataStore {
 
   public getRelatedProducts(productId: string, limit = 8): Product[] {
     const current = this.getProductByIdOrSlug(productId);
-    if (!current) return this.data.products.slice(0, limit);
+    if (!current) return this.data.products.slice(0, limit).map(sanitizeProduct);
 
     const subList = this.productsBySubcategory.get(current.subcategory.toLowerCase().trim()) || [];
     const related = subList.filter((p) => p.id !== current.id);
-    if (related.length >= limit) return related.slice(0, limit);
+    if (related.length >= limit) return related.slice(0, limit).map(sanitizeProduct);
 
     const catList = this.productsByCategory.get(current.category.toLowerCase().trim()) || [];
     const combined = [...related, ...catList.filter((p) => p.id !== current.id && !related.some((r) => r.id === p.id))];
-    return combined.slice(0, limit);
+    return combined.slice(0, limit).map(sanitizeProduct);
   }
 
   public getDeals(limit = 12): Product[] {
@@ -534,7 +594,10 @@ export class DataStore {
         deals.push(p);
       }
     }
-    return deals.sort((a, b) => b.discountPercent - a.discountPercent).slice(0, limit);
+    return deals
+      .sort((a, b) => b.discountPercent - a.discountPercent)
+      .slice(0, limit)
+      .map(sanitizeProduct);
   }
 
   public getFeaturedProducts(limit = 12): Product[] {
@@ -545,15 +608,18 @@ export class DataStore {
       }
       if (featured.length >= limit * 2) break;
     }
-    return featured.slice(0, limit);
+    return featured.slice(0, limit).map(sanitizeProduct);
   }
 
   public addProduct(product: Omit<Product, "id" | "createdAt">): Product {
-    const newProduct: Product = {
+    const id = product.productId || `prod-custom-${uuidv4().slice(0, 8)}`;
+    const newProduct: Product = sanitizeProduct({
       ...product,
-      id: `prod-custom-${uuidv4().slice(0, 8)}`,
+      id,
+      productId: id,
+      productName: product.productName || product.name,
       createdAt: new Date().toISOString(),
-    };
+    } as Product);
     this.data.products.unshift(newProduct);
     this.persistProducts();
     return newProduct;
@@ -577,9 +643,25 @@ export class DataStore {
     return false;
   }
 
+  public getAllCatalogProducts(): Product[] {
+    return this.data.products;
+  }
+
   // --- Categories ---
   public getCategories(): Category[] {
     return this.data.categories;
+  }
+
+  // --- Brands ---
+  public getBrands(category?: string): Brand[] {
+    if (category) {
+      const cleanCat = category.toLowerCase().trim();
+      const brandNames = CATEGORY_BRANDS[cleanCat];
+      if (brandNames) {
+        return ALL_BRANDS.filter((b) => brandNames.includes(b.name));
+      }
+    }
+    return ALL_BRANDS;
   }
 
   // --- Users & Auth ---

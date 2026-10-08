@@ -1,28 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ZoomIn, X } from "lucide-react";
 import { ImageWithFallback } from "../common/ImageWithFallback";
 
 interface ProductGalleryProps {
   images: string[];
   productName: string;
+  category?: string;
+  subcategory?: string;
 }
 
 export const ProductGallery: React.FC<ProductGalleryProps> = ({
   images,
   productName,
+  category,
+  subcategory,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
-  const activeImage = images[selectedIndex] || images[0];
+  // Reset to first image whenever product images change (e.g. on variant switch)
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [images]);
+
+  const activeImage = images[selectedIndex] || images[0] || "";
 
   const handleNext = () => {
+    if (images.length <= 1) return;
     setSelectedIndex((prev) => (prev + 1) % images.length);
   };
 
   const handlePrev = () => {
+    if (images.length <= 1) return;
     setSelectedIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
@@ -43,16 +54,20 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
             <button
               key={idx}
               onClick={() => setSelectedIndex(idx)}
-              className={`w-16 h-16 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+              className={`w-16 h-16 shrink-0 rounded-xl overflow-hidden border-2 transition-all bg-slate-50 ${
                 isSelected
                   ? "border-indigo-600 ring-2 ring-indigo-200"
-                  : "border-slate-200 hover:border-slate-300 opacity-70 hover:opacity-100"
+                  : "border-slate-200 hover:border-slate-300 opacity-75 hover:opacity-100"
               }`}
             >
               <ImageWithFallback
                 src={img}
                 alt={`${productName} thumbnail ${idx + 1}`}
-                className="w-full h-full object-cover"
+                category={category}
+                subcategory={subcategory}
+                productName={productName}
+                fit="contain"
+                className="w-full h-full p-1"
                 fallbackText={productName}
               />
             </button>
@@ -68,12 +83,16 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClick={() => setIsZoomOpen(true)}
-          className="w-full aspect-square relative cursor-crosshair flex items-center justify-center overflow-hidden"
+          className="w-full aspect-square relative cursor-crosshair flex items-center justify-center overflow-hidden p-6"
         >
           <ImageWithFallback
             src={activeImage}
             alt={productName}
-            className={`w-full h-full object-contain p-4 transition-transform duration-200 ${
+            category={category}
+            subcategory={subcategory}
+            productName={productName}
+            fit="contain"
+            className={`w-full h-full transition-transform duration-200 ${
               isHovering ? "scale-125" : "scale-100"
             }`}
             style={
@@ -127,11 +146,15 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
             <X className="w-6 h-6" />
           </button>
 
-          <div className="max-w-4xl max-h-[85vh] relative flex items-center justify-center">
-            <img
+          <div className="max-w-4xl max-h-[85vh] relative flex items-center justify-center p-4">
+            <ImageWithFallback
               src={activeImage}
               alt={productName}
-              className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
+              category={category}
+              subcategory={subcategory}
+              productName={productName}
+              fit="contain"
+              className="max-w-full max-h-[80vh] rounded-2xl shadow-2xl bg-white p-4"
             />
           </div>
         </div>

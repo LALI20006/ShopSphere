@@ -80,7 +80,7 @@ export const CheckoutPage: React.FC = () => {
         items: items.map((i) => ({
           productId: i.productId,
           name: i.product.name,
-          image: i.product.images[0],
+          image: i.product.thumbnail || i.product.images[0],
           price: i.product.price,
           originalPrice: i.product.originalPrice,
           quantity: i.quantity,
@@ -290,9 +290,13 @@ export const CheckoutPage: React.FC = () => {
                   >
                     <div className="w-12 h-12 bg-slate-50 rounded-lg overflow-hidden border border-slate-100 flex-shrink-0">
                       <ImageWithFallback
-                        src={item.product.images[0]}
+                        src={item.product.thumbnail || item.product.images[0]}
                         alt={item.product.name}
-                        className="w-full h-full object-contain p-1"
+                        category={item.product.category}
+                        subcategory={item.product.subcategory}
+                        productName={item.product.name}
+                        fit="contain"
+                        className="w-full h-full p-1"
                       />
                     </div>
                     <div className="flex-1 min-w-0">

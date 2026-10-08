@@ -2,6 +2,7 @@ import { Router } from "express";
 import { DataStore } from "../services/store.js";
 import { requireAdmin, AuthRequest } from "../middleware/auth.js";
 import { OrderStatus } from "../models/Order.js";
+import { isImageAlreadyUsed } from "../services/imageValidation.js";
 
 const router = Router();
 const store = DataStore.getInstance();
@@ -82,6 +83,13 @@ router.post("/products", (req: AuthRequest, res) => {
       return res.status(400).json({ error: "Product name, brand, category, and price are required" });
     }
 
+    const primaryImage = (Array.isArray(images) && images[0]) || req.body.imageUrl;
+    if (primaryImage && isImageAlreadyUsed(primaryImage, store.getAllCatalogProducts())) {
+      return res.status(400).json({
+        error: "This image is already assigned to another product. Please select a unique image.",
+      });
+    }
+
     const numPrice = Number(price);
     const numOriginal = Number(originalPrice || price);
     const discount = numOriginal > numPrice ? Math.round(((numOriginal - numPrice) / numOriginal) * 100) : 0;
@@ -127,6 +135,13 @@ router.post("/products", (req: AuthRequest, res) => {
 // PUT /api/v1/admin/products/:id
 router.put("/products/:id", (req: AuthRequest, res) => {
   try {
+    const primaryImage = (Array.isArray(req.body.images) && req.body.images[0]) || req.body.imageUrl;
+    if (primaryImage && isImageAlreadyUsed(primaryImage, store.getAllCatalogProducts(), req.params.id)) {
+      return res.status(400).json({
+        error: "This image is already assigned to another product. Please select a unique image.",
+      });
+    }
+
     const updated = store.updateProduct(req.params.id, req.body);
     if (!updated) {
       return res.status(404).json({ error: "Product not found" });

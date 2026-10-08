@@ -265,7 +265,9 @@ export const OrderDetailPage: React.FC = () => {
                       <ImageWithFallback
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-contain p-1"
+                        productName={item.name}
+                        fit="contain"
+                        className="w-full h-full p-1"
                       />
                     </div>
 

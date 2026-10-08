@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Product, Category, User, Order, Address, Review, ProductFilterQuery } from "../types";
+import { Product, Category, User, Order, Address, Review, ProductFilterQuery, Brand } from "../types";
 
 const api = axios.create({
   baseURL: ((import.meta as any).env?.VITE_API_URL as string) || "/api/v1",
@@ -57,6 +57,9 @@ export const authApi = {
 export const productApi = {
   getCategories: () =>
     api.get<{ categories: Category[] }>("/products/categories").then((r) => r.data),
+
+  getBrands: (category?: string) =>
+    api.get<{ brands: Brand[] }>("/products/brands", { params: { category } }).then((r) => r.data),
 
   getProducts: (params: ProductFilterQuery) =>
     api.get<{ products: Product[]; total: number; page: number; totalPages: number }>("/products", { params }).then((r) => r.data),

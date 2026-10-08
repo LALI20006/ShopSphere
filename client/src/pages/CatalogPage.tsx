@@ -57,6 +57,21 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ categories }) => {
   const [availableBrands, setAvailableBrands] = useState<string[]>([]);
 
   useEffect(() => {
+    const loadCategoryBrands = async () => {
+      try {
+        const cat = categorySlug || (initialCategory !== "all" ? initialCategory : undefined);
+        const res = await productApi.getBrands(cat);
+        if (res.brands && res.brands.length > 0) {
+          setAvailableBrands(res.brands.map((b) => b.name));
+        }
+      } catch (err) {
+        // fallback to products-extracted brands
+      }
+    };
+    loadCategoryBrands();
+  }, [categorySlug, initialCategory]);
+
+  useEffect(() => {
     // Reset page on route change
     setCurrentPage(1);
   }, [categorySlug, subcategorySlug, searchQuery]);

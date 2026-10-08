@@ -2,916 +2,436 @@
   "categories": [
     {
       "id": "cat-1",
-      "name": "Mobiles, Computers",
-      "slug": "mobiles-computers",
-      "icon": "Smartphone",
-      "bannerImage": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80",
-      "description": "Cutting-edge smartphones, high-performance laptops, tablets, and computing accessories.",
+      "name": "Electronics",
+      "slug": "electronics",
+      "icon": "Tv",
+      "bannerImage": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=1200&q=80",
+      "description": "Immersive 4K/8K smart TVs, studio soundbars, noise-canceling headphones, and pro cameras.",
       "subcategories": [
         {
           "id": "sub-1-1",
-          "name": "All Mobile Phones",
-          "slug": "all-mobile-phones"
+          "name": "Smart TVs & Displays",
+          "slug": "smart-tvs"
         },
         {
           "id": "sub-1-2",
-          "name": "Mobile Accessories",
-          "slug": "mobile-accessories"
+          "name": "Audio & Headphones",
+          "slug": "audio-headphones"
         },
         {
           "id": "sub-1-3",
-          "name": "Cases & Covers",
-          "slug": "cases-covers"
+          "name": "Soundbars & Home Theater",
+          "slug": "soundbars-home-theater"
         },
         {
           "id": "sub-1-4",
-          "name": "Screen Protectors",
-          "slug": "screen-protectors"
+          "name": "Cameras & Photography",
+          "slug": "cameras-photography"
         },
         {
           "id": "sub-1-5",
-          "name": "Power Banks",
-          "slug": "power-banks"
+          "name": "Gaming Consoles & Gear",
+          "slug": "gaming-consoles"
         },
         {
           "id": "sub-1-6",
-          "name": "Tablets",
-          "slug": "tablets"
-        },
-        {
-          "id": "sub-1-7",
-          "name": "Wearable Devices",
-          "slug": "wearable-devices"
-        },
-        {
-          "id": "sub-1-8",
-          "name": "Smart Home",
-          "slug": "smart-home"
-        },
-        {
-          "id": "sub-1-9",
-          "name": "Laptops & Computers",
-          "slug": "laptops-computers"
-        },
-        {
-          "id": "sub-1-10",
-          "name": "Computer Accessories",
-          "slug": "computer-accessories"
-        },
-        {
-          "id": "sub-1-11",
-          "name": "Office Supplies & Stationery",
-          "slug": "office-stationery"
-        },
-        {
-          "id": "sub-1-12",
-          "name": "Software",
-          "slug": "software"
+          "name": "Smart Speakers & Assistants",
+          "slug": "smart-speakers"
         }
       ]
     },
     {
       "id": "cat-2",
-      "name": "TV, Appliances, Electronics",
-      "slug": "tv-appliances-electronics",
-      "icon": "Tv",
-      "bannerImage": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=1200&q=80",
-      "description": "Immersive 4K/8K TVs, cinematic soundbars, smart appliances, pro cameras, and gaming consoles.",
+      "name": "Mobiles",
+      "slug": "mobiles",
+      "icon": "Smartphone",
+      "bannerImage": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&q=80",
+      "description": "Flagship 5G smartphones, folding devices, AI camera powerhouses, and reliable daily drivers.",
       "subcategories": [
         {
           "id": "sub-2-1",
-          "name": "Televisions",
-          "slug": "televisions"
+          "name": "Flagship 5G Smartphones",
+          "slug": "flagship-smartphones"
         },
         {
           "id": "sub-2-2",
-          "name": "Home Entertainment Systems",
-          "slug": "home-entertainment"
+          "name": "Mid-Range Smartphones",
+          "slug": "mid-range-smartphones"
         },
         {
           "id": "sub-2-3",
-          "name": "Headphones",
-          "slug": "headphones"
+          "name": "Budget Smartphones",
+          "slug": "budget-smartphones"
         },
         {
           "id": "sub-2-4",
-          "name": "Speakers",
-          "slug": "speakers"
+          "name": "Foldable & Flip Phones",
+          "slug": "foldable-smartphones"
         },
         {
           "id": "sub-2-5",
-          "name": "Home Audio & Theater",
-          "slug": "home-audio-theater"
-        },
-        {
-          "id": "sub-2-6",
-          "name": "Cameras",
-          "slug": "cameras"
-        },
-        {
-          "id": "sub-2-7",
-          "name": "DSLR Cameras",
-          "slug": "dslr-cameras"
-        },
-        {
-          "id": "sub-2-8",
-          "name": "Security Cameras",
-          "slug": "security-cameras"
-        },
-        {
-          "id": "sub-2-9",
-          "name": "Camera Accessories",
-          "slug": "camera-accessories"
-        },
-        {
-          "id": "sub-2-10",
-          "name": "Musical Instruments & Professional Audio",
-          "slug": "musical-instruments"
-        },
-        {
-          "id": "sub-2-11",
-          "name": "Gaming Consoles",
-          "slug": "gaming-consoles"
-        },
-        {
-          "id": "sub-2-12",
-          "name": "All Electronics",
-          "slug": "all-electronics"
-        },
-        {
-          "id": "sub-2-13",
-          "name": "Air Conditioners",
-          "slug": "air-conditioners"
-        },
-        {
-          "id": "sub-2-14",
-          "name": "Refrigerators",
-          "slug": "refrigerators"
-        },
-        {
-          "id": "sub-2-15",
-          "name": "Washing Machines",
-          "slug": "washing-machines"
-        },
-        {
-          "id": "sub-2-16",
-          "name": "Kitchen & Home Appliances",
-          "slug": "kitchen-appliances"
-        },
-        {
-          "id": "sub-2-17",
-          "name": "Heating & Cooling Appliances",
-          "slug": "heating-cooling"
-        },
-        {
-          "id": "sub-2-18",
-          "name": "All Appliances",
-          "slug": "all-appliances"
+          "name": "Gaming Phones",
+          "slug": "gaming-smartphones"
         }
       ]
     },
     {
       "id": "cat-3",
-      "name": "Men's Fashion",
-      "slug": "mens-fashion",
-      "icon": "Shirt",
-      "bannerImage": "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?w=1200&q=80",
-      "description": "Elevate your style with premium menswear, formal shirts, denim, luxury chronographs, and shoes.",
+      "name": "Laptops",
+      "slug": "laptops",
+      "icon": "Laptop",
+      "bannerImage": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=80",
+      "description": "Performance gaming rigs, featherweight ultrabooks, enterprise workstations, and 2-in-1 convertibles.",
       "subcategories": [
         {
           "id": "sub-3-1",
-          "name": "Clothing",
-          "slug": "clothing"
+          "name": "Ultrabooks & Thin Laptops",
+          "slug": "ultrabooks"
         },
         {
           "id": "sub-3-2",
-          "name": "T-shirts & Polos",
-          "slug": "tshirts-polos"
+          "name": "Gaming Laptops",
+          "slug": "gaming-laptops"
         },
         {
           "id": "sub-3-3",
-          "name": "Shirts",
-          "slug": "shirts"
+          "name": "Business & Enterprise Laptops",
+          "slug": "business-laptops"
         },
         {
           "id": "sub-3-4",
-          "name": "Jeans",
-          "slug": "jeans"
+          "name": "Student & Everyday Laptops",
+          "slug": "student-laptops"
         },
         {
           "id": "sub-3-5",
-          "name": "Innerwear",
-          "slug": "innerwear"
+          "name": "2-in-1 Convertible Laptops",
+          "slug": "convertible-laptops"
         },
         {
           "id": "sub-3-6",
-          "name": "Watches",
-          "slug": "watches"
-        },
-        {
-          "id": "sub-3-7",
-          "name": "Bags & Luggage",
-          "slug": "bags-luggage"
-        },
-        {
-          "id": "sub-3-8",
-          "name": "Sunglasses",
-          "slug": "sunglasses"
-        },
-        {
-          "id": "sub-3-9",
-          "name": "Jewellery",
-          "slug": "jewellery"
-        },
-        {
-          "id": "sub-3-10",
-          "name": "Wallets",
-          "slug": "wallets"
-        },
-        {
-          "id": "sub-3-11",
-          "name": "Shoes",
-          "slug": "shoes"
-        },
-        {
-          "id": "sub-3-12",
-          "name": "Sports Shoes",
-          "slug": "sports-shoes"
-        },
-        {
-          "id": "sub-3-13",
-          "name": "Formal Shoes",
-          "slug": "formal-shoes"
-        },
-        {
-          "id": "sub-3-14",
-          "name": "Casual Shoes",
-          "slug": "casual-shoes"
+          "name": "Workstations & Creator Laptops",
+          "slug": "workstations"
         }
       ]
     },
     {
       "id": "cat-4",
-      "name": "Women's Fashion",
-      "slug": "womens-fashion",
-      "icon": "ShoppingBag",
-      "bannerImage": "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=80",
-      "description": "Designer dresses, ethnic kurtas, luxury leather handbags, silver jewellery, and footwear.",
+      "name": "Fashion",
+      "slug": "fashion",
+      "icon": "Shirt",
+      "bannerImage": "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?w=1200&q=80",
+      "description": "Trendsetting apparel, authentic denim, tailored shirts, elegant ethnic wear, and luxury staples.",
       "subcategories": [
         {
           "id": "sub-4-1",
-          "name": "Clothing",
-          "slug": "clothing"
+          "name": "Men's Shirts & Polos",
+          "slug": "mens-shirts-polos"
         },
         {
           "id": "sub-4-2",
-          "name": "Western Wear",
-          "slug": "western-wear"
+          "name": "Men's Trousers & Chinos",
+          "slug": "mens-trousers"
         },
         {
           "id": "sub-4-3",
-          "name": "Ethnic Wear",
-          "slug": "ethnic-wear"
+          "name": "Women's Western Dresses",
+          "slug": "womens-dresses"
         },
         {
           "id": "sub-4-4",
-          "name": "Lingerie & Nightwear",
-          "slug": "lingerie-nightwear"
+          "name": "Women's Ethnic Kurtas & Sarees",
+          "slug": "womens-ethnic"
         },
         {
           "id": "sub-4-5",
-          "name": "Top Brands",
-          "slug": "top-brands"
+          "name": "Denim Jeans & Jackets",
+          "slug": "denim-jackets"
         },
         {
           "id": "sub-4-6",
-          "name": "Watches",
-          "slug": "watches"
-        },
-        {
-          "id": "sub-4-7",
-          "name": "Handbags & Clutches",
-          "slug": "handbags-clutches"
-        },
-        {
-          "id": "sub-4-8",
-          "name": "Gold & Diamond Jewellery",
-          "slug": "gold-diamond-jewellery"
-        },
-        {
-          "id": "sub-4-9",
-          "name": "Fashion & Silver Jewellery",
-          "slug": "jewellery"
-        },
-        {
-          "id": "sub-4-10",
-          "name": "Sunglasses",
-          "slug": "sunglasses"
-        },
-        {
-          "id": "sub-4-11",
-          "name": "Shoes",
-          "slug": "shoes"
-        },
-        {
-          "id": "sub-4-12",
-          "name": "Fashion Sandals",
-          "slug": "fashion-sandals"
-        },
-        {
-          "id": "sub-4-13",
-          "name": "Ballerinas",
-          "slug": "ballerinas"
+          "name": "Winterwear & Hoodies",
+          "slug": "winterwear-hoodies"
         }
       ]
     },
     {
       "id": "cat-5",
-      "name": "Home, Kitchen, Pets",
-      "slug": "home-kitchen-pets",
-      "icon": "Home",
-      "bannerImage": "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1200&q=80",
-      "description": "Transform your living space with cookware, aesthetic furnishings, modern lighting, and pet care.",
+      "name": "Shoes",
+      "slug": "shoes",
+      "icon": "ShoppingBag",
+      "bannerImage": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80",
+      "description": "Engineered marathon running shoes, iconic street sneakers, leather formal shoes, and training kicks.",
       "subcategories": [
         {
           "id": "sub-5-1",
-          "name": "Kitchen & Dining",
-          "slug": "kitchen-dining"
+          "name": "Running & Jogging Shoes",
+          "slug": "running-shoes"
         },
         {
           "id": "sub-5-2",
-          "name": "Kitchen Storage & Containers",
-          "slug": "kitchen-storage"
+          "name": "Casual Sneakers",
+          "slug": "casual-sneakers"
         },
         {
           "id": "sub-5-3",
-          "name": "Furniture",
-          "slug": "furniture"
+          "name": "Formal Oxford & Derby Shoes",
+          "slug": "formal-shoes"
         },
         {
           "id": "sub-5-4",
-          "name": "Fine Art",
-          "slug": "fine-art"
+          "name": "Sports & Training Shoes",
+          "slug": "sports-training-shoes"
         },
         {
           "id": "sub-5-5",
-          "name": "Home Furnishing",
-          "slug": "home-furnishing"
+          "name": "Loafers & Slip-Ons",
+          "slug": "loafers-slip-ons"
         },
         {
           "id": "sub-5-6",
-          "name": "Bedroom Linen",
-          "slug": "bedroom-linen"
-        },
-        {
-          "id": "sub-5-7",
-          "name": "Home Décor",
-          "slug": "home-decor"
-        },
-        {
-          "id": "sub-5-8",
-          "name": "Garden & Outdoors",
-          "slug": "garden-outdoors"
-        },
-        {
-          "id": "sub-5-9",
-          "name": "Home Storage",
-          "slug": "home-storage"
-        },
-        {
-          "id": "sub-5-10",
-          "name": "Indoor Lighting",
-          "slug": "indoor-lighting"
-        },
-        {
-          "id": "sub-5-11",
-          "name": "Home Improvement",
-          "slug": "home-improvement"
-        },
-        {
-          "id": "sub-5-12",
-          "name": "Sewing & Craft Supplies",
-          "slug": "sewing-craft"
+          "name": "Sandals & Slides",
+          "slug": "sandals-slides"
         }
       ]
     },
     {
       "id": "cat-6",
-      "name": "Beauty, Health, Grocery",
-      "slug": "beauty-health-grocery",
-      "icon": "Sparkles",
-      "bannerImage": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1200&q=80",
-      "description": "Dermatologist-recommended skincare, artisanal coffees, organic teas, fragrances, and wellness essentials.",
+      "name": "Home & Kitchen",
+      "slug": "home-kitchen",
+      "icon": "Home",
+      "bannerImage": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1200&q=80",
+      "description": "Premium tri-ply cookware, smart air fryers, powerful mixer grinders, and modern home essentials.",
       "subcategories": [
         {
           "id": "sub-6-1",
-          "name": "Luxury Beauty",
-          "slug": "luxury-beauty"
+          "name": "Cookware & Non-Stick Sets",
+          "slug": "cookware-sets"
         },
         {
           "id": "sub-6-2",
-          "name": "Make-up",
-          "slug": "makeup"
+          "name": "Kitchen Appliances",
+          "slug": "kitchen-appliances"
         },
         {
           "id": "sub-6-3",
-          "name": "Health & Personal Care",
-          "slug": "health-personal-care"
+          "name": "Mixer Grinders & Juicers",
+          "slug": "mixers-juicers"
         },
         {
           "id": "sub-6-4",
-          "name": "Household Supplies",
-          "slug": "household-supplies"
+          "name": "Air Fryers & Ovens",
+          "slug": "air-fryers-ovens"
         },
         {
           "id": "sub-6-5",
-          "name": "Personal Care Appliances",
-          "slug": "personal-care-appliances"
+          "name": "Vacuum Cleaners & Purifiers",
+          "slug": "cleaners-purifiers"
         },
         {
           "id": "sub-6-6",
-          "name": "Diet & Nutrition",
-          "slug": "diet-nutrition"
-        },
-        {
-          "id": "sub-6-7",
-          "name": "Grocery & Gourmet Foods",
-          "slug": "grocery-gourmet"
-        },
-        {
-          "id": "sub-6-8",
-          "name": "Coffee, Tea & Beverages",
-          "slug": "coffee-tea-beverages"
-        },
-        {
-          "id": "sub-6-9",
-          "name": "Snack Foods",
-          "slug": "packaged-foods-snacks"
+          "name": "Dinnerware & Dining",
+          "slug": "dinnerware-dining"
         }
       ]
     },
     {
       "id": "cat-7",
-      "name": "Sports, Fitness, Bags, Luggage",
-      "slug": "sports-fitness-bags-luggage",
-      "icon": "Dumbbell",
-      "bannerImage": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1200&q=80",
-      "description": "Pro sports gear, gym accessories, yoga mats, durable travel trolleys, and outdoor backpacks.",
+      "name": "Beauty",
+      "slug": "beauty",
+      "icon": "Sparkles",
+      "bannerImage": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1200&q=80",
+      "description": "Dermatologist-tested skincare, radiant makeup cosmetics, luxury fragrances, and salon hair care.",
       "subcategories": [
         {
           "id": "sub-7-1",
-          "name": "Cricket",
-          "slug": "cricket"
+          "name": "Skincare & Serums",
+          "slug": "skincare-serums"
         },
         {
           "id": "sub-7-2",
-          "name": "Badminton",
-          "slug": "badminton"
+          "name": "Makeup & Foundations",
+          "slug": "makeup-cosmetics"
         },
         {
           "id": "sub-7-3",
-          "name": "Cycling",
-          "slug": "cycling"
+          "name": "Hair Care & Shampoos",
+          "slug": "haircare-styling"
         },
         {
           "id": "sub-7-4",
-          "name": "Football",
-          "slug": "football"
+          "name": "Luxury Fragrances & Perfumes",
+          "slug": "fragrances-perfumes"
         },
         {
           "id": "sub-7-5",
-          "name": "Running",
-          "slug": "running"
+          "name": "Sunscreens & Lotions",
+          "slug": "sunscreen-bodycare"
         },
         {
           "id": "sub-7-6",
-          "name": "Camping & Hiking",
-          "slug": "camping-hiking"
-        },
-        {
-          "id": "sub-7-7",
-          "name": "Fitness Accessories",
-          "slug": "fitness-accessories"
-        },
-        {
-          "id": "sub-7-8",
-          "name": "Yoga",
-          "slug": "yoga"
-        },
-        {
-          "id": "sub-7-9",
-          "name": "Strength Training",
-          "slug": "strength-training"
-        },
-        {
-          "id": "sub-7-10",
-          "name": "Cardio Equipment",
-          "slug": "cardio-equipment"
-        },
-        {
-          "id": "sub-7-11",
-          "name": "Sports Collectibles",
-          "slug": "sports-collectibles"
-        },
-        {
-          "id": "sub-7-12",
-          "name": "Refurbished & Open Box",
-          "slug": "refurbished-sports"
-        },
-        {
-          "id": "sub-7-13",
-          "name": "Exercise & Fitness",
-          "slug": "exercise-fitness"
-        },
-        {
-          "id": "sub-7-14",
-          "name": "Sports, Fitness & Outdoors",
-          "slug": "sports-outdoors"
-        },
-        {
-          "id": "sub-7-15",
-          "name": "Backpacks",
-          "slug": "backpacks"
-        },
-        {
-          "id": "sub-7-16",
-          "name": "Rucksacks",
-          "slug": "rucksacks"
-        },
-        {
-          "id": "sub-7-17",
-          "name": "Suitcases & Trolley Bags",
-          "slug": "suitcases-trolleys"
-        },
-        {
-          "id": "sub-7-18",
-          "name": "Travel Duffels",
-          "slug": "travel-duffels"
-        },
-        {
-          "id": "sub-7-19",
-          "name": "Travel Accessories",
-          "slug": "travel-accessories"
-        },
-        {
-          "id": "sub-7-20",
-          "name": "Wallets",
-          "slug": "wallets"
+          "name": "Men's Grooming & Beard Care",
+          "slug": "mens-grooming"
         }
       ]
     },
     {
       "id": "cat-8",
-      "name": "Toys, Baby Products, Kids' Fashion",
-      "slug": "toys-baby-kids",
-      "icon": "Baby",
-      "bannerImage": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1200&q=80",
-      "description": "Educational STEM toys, baby care essentials, comfortable strollers, and trendy kids apparel.",
+      "name": "Sports",
+      "slug": "sports",
+      "icon": "Dumbbell",
+      "bannerImage": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1200&q=80",
+      "description": "Pro graphite rackets, FIFA-grade footballs, heavy-duty gym weights, cricket bats, and yoga gear.",
       "subcategories": [
         {
           "id": "sub-8-1",
-          "name": "Educational Toys",
-          "slug": "educational-toys"
+          "name": "Gym Equipment & Dumbbells",
+          "slug": "gym-equipment"
         },
         {
           "id": "sub-8-2",
-          "name": "Action Figures",
-          "slug": "action-figures"
+          "name": "Badminton & Tennis Rackets",
+          "slug": "badminton-tennis"
         },
         {
           "id": "sub-8-3",
-          "name": "Dolls",
-          "slug": "dolls"
+          "name": "Footballs & Basketballs",
+          "slug": "balls-sports-gear"
         },
         {
           "id": "sub-8-4",
-          "name": "Remote Control Toys",
-          "slug": "remote-control-toys"
+          "name": "Cricket Bats & Protection",
+          "slug": "cricket-gear"
         },
         {
           "id": "sub-8-5",
-          "name": "Board Games",
-          "slug": "board-games"
+          "name": "Yoga Mats & Resistance Bands",
+          "slug": "yoga-fitness"
         },
         {
           "id": "sub-8-6",
-          "name": "Puzzles",
-          "slug": "puzzles"
-        },
-        {
-          "id": "sub-8-7",
-          "name": "Outdoor Toys",
-          "slug": "outdoor-toys"
-        },
-        {
-          "id": "sub-8-8",
-          "name": "STEM Toys",
-          "slug": "stem-toys"
-        },
-        {
-          "id": "sub-8-9",
-          "name": "Baby Toys",
-          "slug": "baby-toys"
-        },
-        {
-          "id": "sub-8-10",
-          "name": "Baby Clothing",
-          "slug": "baby-clothing"
-        },
-        {
-          "id": "sub-8-11",
-          "name": "Diapers",
-          "slug": "diapers"
-        },
-        {
-          "id": "sub-8-12",
-          "name": "Feeding",
-          "slug": "feeding"
-        },
-        {
-          "id": "sub-8-13",
-          "name": "Baby Care",
-          "slug": "baby-care"
-        },
-        {
-          "id": "sub-8-14",
-          "name": "Strollers",
-          "slug": "strollers"
-        },
-        {
-          "id": "sub-8-15",
-          "name": "Baby Furniture",
-          "slug": "baby-furniture"
-        },
-        {
-          "id": "sub-8-16",
-          "name": "Baby Safety",
-          "slug": "baby-safety"
-        },
-        {
-          "id": "sub-8-17",
-          "name": "Boys' Clothing",
-          "slug": "boys-clothing"
-        },
-        {
-          "id": "sub-8-18",
-          "name": "Girls' Clothing",
-          "slug": "girls-clothing"
-        },
-        {
-          "id": "sub-8-19",
-          "name": "Kids' Shoes",
-          "slug": "kids-shoes"
-        },
-        {
-          "id": "sub-8-20",
-          "name": "School Accessories",
-          "slug": "school-accessories"
-        },
-        {
-          "id": "sub-8-21",
-          "name": "Kids' Bags",
-          "slug": "kids-bags"
+          "name": "Athletic Apparel & Tracksuits",
+          "slug": "athletic-sportswear"
         }
       ]
     },
     {
       "id": "cat-9",
-      "name": "Car, Motorbike, Industrial",
-      "slug": "car-motorbike-industrial",
-      "icon": "Car",
-      "bannerImage": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80",
-      "description": "Automotive accessories, DOT/ECE certified helmets, riding gear, power tools, and industrial hardware.",
+      "name": "Books",
+      "slug": "books",
+      "icon": "BookOpen",
+      "bannerImage": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1200&q=80",
+      "description": "Bestselling global fiction, tech engineering guides, transformative business books, and classics.",
       "subcategories": [
         {
           "id": "sub-9-1",
-          "name": "Car Accessories",
-          "slug": "car-accessories"
+          "name": "Fiction & Novels",
+          "slug": "fiction-novels"
         },
         {
           "id": "sub-9-2",
-          "name": "Car Electronics",
-          "slug": "car-electronics"
+          "name": "Non-Fiction & Biographies",
+          "slug": "non-fiction-biographies"
         },
         {
           "id": "sub-9-3",
-          "name": "Car Care",
-          "slug": "car-care"
+          "name": "Business & Finance",
+          "slug": "business-finance"
         },
         {
           "id": "sub-9-4",
-          "name": "Motorbike Accessories",
-          "slug": "motorbike-accessories"
+          "name": "Self-Help & Personal Growth",
+          "slug": "self-help"
         },
         {
           "id": "sub-9-5",
-          "name": "Helmets",
-          "slug": "helmets"
+          "name": "Science & Technology",
+          "slug": "science-technology"
         },
         {
           "id": "sub-9-6",
-          "name": "Riding Gear",
-          "slug": "riding-gear"
-        },
-        {
-          "id": "sub-9-7",
-          "name": "Tyres & Wheels",
-          "slug": "tyres-wheels"
-        },
-        {
-          "id": "sub-9-8",
-          "name": "Tools",
-          "slug": "tools"
-        },
-        {
-          "id": "sub-9-9",
-          "name": "Industrial Supplies",
-          "slug": "industrial-supplies"
-        },
-        {
-          "id": "sub-9-10",
-          "name": "Electrical Equipment",
-          "slug": "electrical-equipment"
-        },
-        {
-          "id": "sub-9-11",
-          "name": "Hardware",
-          "slug": "hardware"
-        },
-        {
-          "id": "sub-9-12",
-          "name": "Cleaning & Maintenance",
-          "slug": "cleaning-maintenance"
+          "name": "Children & Young Adult",
+          "slug": "children-books"
         }
       ]
     },
     {
       "id": "cat-10",
-      "name": "Books",
-      "slug": "books",
-      "icon": "BookOpen",
-      "bannerImage": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1200&q=80",
-      "description": "Bestselling literature, academic textbooks, exam prep guides, fiction, non-fiction, and eBooks.",
+      "name": "Toys",
+      "slug": "toys",
+      "icon": "Baby",
+      "bannerImage": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1200&q=80",
+      "description": "LEGO architecture sets, precision RC vehicles, STEM robotics kits, strategy board games, and dolls.",
       "subcategories": [
         {
           "id": "sub-10-1",
-          "name": "All Books",
-          "slug": "all-books"
+          "name": "Building Blocks & LEGO",
+          "slug": "building-blocks"
         },
         {
           "id": "sub-10-2",
-          "name": "Fiction Books",
-          "slug": "fiction-books"
+          "name": "Action Figures & Collectibles",
+          "slug": "action-figures"
         },
         {
           "id": "sub-10-3",
-          "name": "Editor's Corner",
-          "slug": "editors-corner"
+          "name": "Board Games & Puzzles",
+          "slug": "board-games-puzzles"
         },
         {
           "id": "sub-10-4",
-          "name": "School Textbooks",
-          "slug": "school-textbooks"
+          "name": "Remote Control Vehicles",
+          "slug": "rc-vehicles"
         },
         {
           "id": "sub-10-5",
-          "name": "Children's Books",
-          "slug": "childrens-books"
+          "name": "STEM & Educational Kits",
+          "slug": "stem-educational"
         },
         {
           "id": "sub-10-6",
-          "name": "Exam Central",
-          "slug": "exam-central"
-        },
-        {
-          "id": "sub-10-7",
-          "name": "Textbooks",
-          "slug": "textbooks"
-        },
-        {
-          "id": "sub-10-8",
-          "name": "Indian Language Books",
-          "slug": "indian-language-books"
-        },
-        {
-          "id": "sub-10-9",
-          "name": "Kindle eBooks",
-          "slug": "kindle-ebooks"
-        },
-        {
-          "id": "sub-10-10",
-          "name": "Engineering Books",
-          "slug": "engineering-books"
-        },
-        {
-          "id": "sub-10-11",
-          "name": "Programming Books",
-          "slug": "programming-tech-books"
-        },
-        {
-          "id": "sub-10-12",
-          "name": "Competitive Exam Books",
-          "slug": "competitive-exam-books"
-        },
-        {
-          "id": "sub-10-13",
-          "name": "Self Help",
-          "slug": "self-help"
-        },
-        {
-          "id": "sub-10-14",
-          "name": "Business Books",
-          "slug": "business-books"
-        },
-        {
-          "id": "sub-10-15",
-          "name": "Biography",
-          "slug": "biography"
-        },
-        {
-          "id": "sub-10-16",
-          "name": "History",
-          "slug": "history"
-        },
-        {
-          "id": "sub-10-17",
-          "name": "Science",
-          "slug": "science"
-        },
-        {
-          "id": "sub-10-18",
-          "name": "Romance",
-          "slug": "romance"
-        },
-        {
-          "id": "sub-10-19",
-          "name": "Mystery",
-          "slug": "mystery"
+          "name": "Dolls & Playsets",
+          "slug": "dolls-playsets"
         }
       ]
     },
     {
       "id": "cat-11",
-      "name": "Movies, Music & Video Games",
-      "slug": "movies-music-video-games",
-      "icon": "Gamepad2",
-      "bannerImage": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200&q=80",
-      "description": "Next-generation video games, console accessories, music albums, movies, and high-fidelity audio gear.",
+      "name": "Accessories",
+      "slug": "accessories",
+      "icon": "Headphones",
+      "bannerImage": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80",
+      "description": "Military-grade phone cases, GaN fast chargers, magnetic power banks, smartwatch bands, and cables.",
       "subcategories": [
         {
           "id": "sub-11-1",
-          "name": "Movies",
-          "slug": "movies"
+          "name": "Phone Cases & Screen Protectors",
+          "slug": "phone-cases-covers"
         },
         {
           "id": "sub-11-2",
-          "name": "Music",
-          "slug": "music"
+          "name": "Fast Chargers & Cables",
+          "slug": "chargers-cables"
         },
         {
           "id": "sub-11-3",
-          "name": "Video Games",
-          "slug": "video-games"
+          "name": "Wireless Power Banks",
+          "slug": "power-banks"
         },
         {
           "id": "sub-11-4",
-          "name": "PC Games",
-          "slug": "pc-games"
+          "name": "Smartwatch Straps & Bands",
+          "slug": "smartwatch-straps"
         },
         {
           "id": "sub-11-5",
-          "name": "PlayStation Games",
-          "slug": "playstation-games"
+          "name": "Laptop Sleeves & Backpacks",
+          "slug": "laptop-sleeves-bags"
         },
         {
           "id": "sub-11-6",
-          "name": "Xbox Games",
-          "slug": "xbox-games"
-        },
-        {
-          "id": "sub-11-7",
-          "name": "Nintendo Games",
-          "slug": "nintendo-games"
-        },
-        {
-          "id": "sub-11-8",
-          "name": "Gaming Accessories",
-          "slug": "gaming-accessories"
-        },
-        {
-          "id": "sub-11-9",
-          "name": "DVDs & Blu-ray",
-          "slug": "dvds-bluray"
-        },
-        {
-          "id": "sub-11-10",
-          "name": "Music Albums",
-          "slug": "music-albums"
-        },
-        {
-          "id": "sub-11-11",
-          "name": "Musical Accessories",
-          "slug": "musical-accessories"
+          "name": "Earbud Cases & Audio Cables",
+          "slug": "earbud-accessories"
         }
       ]
     }

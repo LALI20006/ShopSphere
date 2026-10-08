@@ -88,6 +88,17 @@ router.get("/", (req, res) => {
   }
 });
 
+// GET /api/v1/products/brands
+router.get("/brands", (req, res) => {
+  try {
+    const category = req.query.category as string | undefined;
+    const brands = store.getBrands(category);
+    return res.json({ brands });
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message || "Failed to fetch brands" });
+  }
+});
+
 // GET /api/v1/products/:idOrSlug
 router.get("/:idOrSlug", (req, res) => {
   try {

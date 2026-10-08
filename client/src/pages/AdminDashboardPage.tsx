@@ -25,6 +25,8 @@ import { adminApi, productApi } from "../services/api";
 import { Order, OrderStatus, Product, Category } from "../types";
 import { ImageWithFallback } from "../components/common/ImageWithFallback";
 import { LoadingSkeleton } from "../components/common/LoadingSkeleton";
+import { isImageAlreadyUsed } from "../utils/imageValidation";
+import { generateProductVisual } from "../utils/productVisualGenerator";
 
 export const AdminDashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -51,13 +53,13 @@ export const AdminDashboardPage: React.FC = () => {
   const [newProduct, setNewProduct] = useState({
     name: "",
     brand: "",
-    category: "Mobiles, Computers",
-    subcategory: "All Mobile Phones",
+    category: "Electronics",
+    subcategory: "Smart TVs & Displays",
     price: "",
     originalPrice: "",
     stock: "25",
     description: "",
-    imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&q=80",
   });
 
   // Edit Product Modal State
@@ -171,6 +173,13 @@ export const AdminDashboardPage: React.FC = () => {
 
     setSubmittingProduct(true);
     setProductError("");
+
+    if (newProduct.imageUrl && isImageAlreadyUsed(newProduct.imageUrl, products)) {
+      setProductError("This image is already assigned to another product. Please select a unique image.");
+      setSubmittingProduct(false);
+      return;
+    }
+
     try {
       const res = await adminApi.createProduct({
         ...newProduct,
@@ -222,6 +231,13 @@ export const AdminDashboardPage: React.FC = () => {
     if (!editingProduct) return;
     setSubmittingProduct(true);
     setProductError("");
+
+    if (editFormData.imageUrl && isImageAlreadyUsed(editFormData.imageUrl, products, editingProduct.id)) {
+      setProductError("This image is already assigned to another product. Please select a unique image.");
+      setSubmittingProduct(false);
+      return;
+    }
+
     try {
       const updates: any = {
         name: editFormData.name,
@@ -540,9 +556,13 @@ export const AdminDashboardPage: React.FC = () => {
                         <td className="py-3 px-4 flex items-center gap-3">
                           <div className="w-11 h-11 bg-white rounded-lg overflow-hidden border border-slate-200 shrink-0 flex items-center justify-center p-0.5">
                             <ImageWithFallback
-                              src={prod.images[0]}
+                              src={prod.thumbnail || prod.images[0]}
                               alt={prod.name}
-                              className="w-full h-full object-contain"
+                              category={prod.category}
+                              subcategory={prod.subcategory}
+                              productName={prod.name}
+                              fit="contain"
+                              className="w-full h-full"
                             />
                           </div>
                           <div>
@@ -854,13 +874,31 @@ export const AdminDashboardPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Image URL</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block font-semibold text-slate-700">Image URL</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const visual = generateProductVisual({
+                          id: `prod-gen-${Date.now()}`,
+                          name: newProduct.name || "Custom Product",
+                          category: newProduct.category,
+                          subcategory: newProduct.subcategory,
+                          brand: newProduct.brand,
+                        });
+                        setNewProduct({ ...newProduct, imageUrl: visual });
+                      }}
+                      className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 underline"
+                    >
+                      ✨ Generate Unique Visual
+                    </button>
+                  </div>
                   <input
-                    type="url"
-                    placeholder="https://images.unsplash.com/..."
+                    type="text"
+                    placeholder="https://images.unsplash.com/... or generate visual"
                     value={newProduct.imageUrl}
                     onChange={(e) => setNewProduct({ ...newProduct, imageUrl: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 font-mono text-[11px]"
                   />
                 </div>
 
@@ -1015,12 +1053,30 @@ export const AdminDashboardPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Image URL</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block font-semibold text-slate-700">Image URL</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const visual = generateProductVisual({
+                          id: editingProduct.id,
+                          name: editFormData.name || editingProduct.name,
+                          category: editFormData.category || editingProduct.category,
+                          subcategory: editFormData.subcategory || editingProduct.subcategory,
+                          brand: editFormData.brand || editingProduct.brand,
+                        });
+                        setEditFormData({ ...editFormData, imageUrl: visual });
+                      }}
+                      className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 underline"
+                    >
+                      ✨ Generate Unique Visual
+                    </button>
+                  </div>
                   <input
-                    type="url"
+                    type="text"
                     value={editFormData.imageUrl}
                     onChange={(e) => setEditFormData({ ...editFormData, imageUrl: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 font-mono text-[11px]"
                   />
                 </div>
 

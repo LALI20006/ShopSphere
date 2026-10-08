@@ -217,7 +217,15 @@ export const ProductDetailPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
         {/* Left Column: Interactive Image Gallery (Span 5) */}
         <div className="lg:col-span-5">
-          <ProductGallery images={product.images} productName={product.name} />
+          <ProductGallery
+            images={
+              (selectedColor && product.variantImages && product.variantImages[selectedColor]) ||
+              product.images
+            }
+            productName={product.name}
+            category={product.category}
+            subcategory={product.subcategory}
+          />
         </div>
 
         {/* Center Column: Product Details & Variant Selection (Span 4) */}

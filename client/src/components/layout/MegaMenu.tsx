@@ -13,6 +13,8 @@ import {
   Car,
   BookOpen,
   Gamepad2,
+  Laptop,
+  Headphones,
   ChevronRight,
   ChevronDown,
   ArrowRight,
@@ -30,6 +32,7 @@ interface MegaMenuProps {
 const iconMap: Record<string, React.ReactNode> = {
   Smartphone: <Smartphone className="w-4 h-4 text-indigo-500" />,
   Tv: <Tv className="w-4 h-4 text-cyan-500" />,
+  Laptop: <Laptop className="w-4 h-4 text-blue-500" />,
   Refrigerator: <Refrigerator className="w-4 h-4 text-blue-500" />,
   Shirt: <Shirt className="w-4 h-4 text-amber-500" />,
   ShoppingBag: <ShoppingBag className="w-4 h-4 text-rose-500" />,
@@ -39,12 +42,13 @@ const iconMap: Record<string, React.ReactNode> = {
   Baby: <Baby className="w-4 h-4 text-yellow-500" />,
   Car: <Car className="w-4 h-4 text-red-500" />,
   BookOpen: <BookOpen className="w-4 h-4 text-violet-500" />,
+  Headphones: <Headphones className="w-4 h-4 text-purple-500" />,
   Gamepad2: <Gamepad2 className="w-4 h-4 text-purple-500" />,
 };
 
 export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose, categories }) => {
   const [activeCategorySlug, setActiveCategorySlug] = useState<string>(
-    categories[0]?.slug || "mobiles-computers"
+    categories[0]?.slug || "electronics"
   );
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | null>(null);
 

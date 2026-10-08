@@ -30,8 +30,8 @@ const HERO_SLIDES = [
     badge: "Mega Tech Fest 2026",
     title: "Next-Gen Flagship Smartphones & Ultrabooks",
     subtitle: "Experience revolutionary AI performance with up to 40% Off on top brands.",
-    ctaText: "Shop Electronics",
-    ctaLink: "/category/mobiles-computers",
+    ctaText: "Shop Mobiles",
+    ctaLink: "/category/mobiles",
     bgGradient: "from-slate-950 via-indigo-950 to-slate-900",
     image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80",
     accentColor: "text-amber-400",
@@ -42,7 +42,7 @@ const HERO_SLIDES = [
     title: "Curated Designer Kurtas, Denims & Chronographs",
     subtitle: "Elevate your daily style with verified luxury labels and festive arrivals.",
     ctaText: "Explore Fashion",
-    ctaLink: "/category/mens-fashion",
+    ctaLink: "/category/fashion",
     bgGradient: "from-slate-950 via-purple-950 to-slate-900",
     image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=80",
     accentColor: "text-rose-400",
@@ -53,7 +53,7 @@ const HERO_SLIDES = [
     title: "Energy-Smart Inverter ACs, OLED TVs & Cookware",
     subtitle: "Transform your living space with intelligent, energy-saving home appliances.",
     ctaText: "Upgrade Home",
-    ctaLink: "/category/appliances",
+    ctaLink: "/category/home-kitchen",
     bgGradient: "from-slate-950 via-blue-950 to-slate-900",
     image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1200&q=80",
     accentColor: "text-cyan-400",
@@ -97,8 +97,8 @@ export const HomePage: React.FC<HomePageProps> = ({ categories }) => {
         const [dealsRes, featRes, elecRes, fashRes] = await Promise.all([
           productApi.getDeals(8),
           productApi.getFeatured(8),
-          productApi.getProducts({ category: "mobiles-computers", limit: 4 }),
-          productApi.getProducts({ category: "mens-fashion", limit: 4 }),
+          productApi.getProducts({ category: "mobiles", limit: 4 }),
+          productApi.getProducts({ category: "fashion", limit: 4 }),
         ]);
 
         setDeals(dealsRes.deals || []);
@@ -210,7 +210,7 @@ export const HomePage: React.FC<HomePageProps> = ({ categories }) => {
             </p>
           </div>
           <Link
-            to="/category/mobiles-computers"
+            to="/category/electronics"
             className="flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-800"
           >
             <span>View All</span>
@@ -321,7 +321,7 @@ export const HomePage: React.FC<HomePageProps> = ({ categories }) => {
             </div>
           </div>
           <Link
-            to="/category/mobiles-computers"
+            to="/category/laptops"
             className="flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-800"
           >
             <span>See More</span>
@@ -343,14 +343,14 @@ export const HomePage: React.FC<HomePageProps> = ({ categories }) => {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-              Flagship Mobiles & Computing
+              Flagship Mobiles & Gadgets
             </h2>
             <p className="text-xs text-slate-500">
-              iPhone 15 Pro, Galaxy S24 Ultra, MacBook M3, ROG Gaming & more
+              Galaxy S24 Ultra, iPhone 15 Pro, Pixel 8 Pro, OnePlus 12 & more
             </p>
           </div>
           <Link
-            to="/category/mobiles-computers"
+            to="/category/mobiles"
             className="flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-800"
           >
             <span>Explore Mobiles</span>
@@ -375,11 +375,11 @@ export const HomePage: React.FC<HomePageProps> = ({ categories }) => {
               Trending in Fashion & Footwear
             </h2>
             <p className="text-xs text-slate-500">
-              Authentic Levi's denim, Air Jordans, luxury watches & designer wear
+              Authentic Levi's denim, Adidas streetwear, luxury shirts & kurtas
             </p>
           </div>
           <Link
-            to="/category/mens-fashion"
+            to="/category/fashion"
             className="flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-800"
           >
             <span>Explore Fashion</span>

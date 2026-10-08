@@ -86,12 +86,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Image Thumbnail */}
         <Link
           to={`/product/${product.slug}`}
-          className="w-full sm:w-48 h-48 sm:h-44 shrink-0 rounded-xl overflow-hidden bg-slate-100 relative block"
+          className="w-full sm:w-48 h-48 sm:h-44 shrink-0 rounded-xl overflow-hidden bg-slate-50 border border-slate-100 relative block p-2"
         >
           <ImageWithFallback
-            src={product.images[activeImageIndex] || product.images[0]}
+            src={product.images[activeImageIndex] || product.thumbnail || product.images[0]}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            category={product.category}
+            subcategory={product.subcategory}
+            productName={product.name}
+            fit="contain"
+            className="w-full h-full group-hover:scale-105 transition-transform duration-500"
             fallbackText={product.name}
           />
           {product.dealBadge && (
@@ -219,12 +223,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       {/* Product Image Gallery Preview */}
       <Link
         to={`/product/${product.slug}`}
-        className="w-full aspect-square rounded-xl overflow-hidden bg-slate-100 relative block mb-3"
+        className="w-full aspect-square rounded-xl overflow-hidden bg-slate-50 border border-slate-100 relative block mb-3 p-2"
       >
         <ImageWithFallback
-          src={product.images[activeImageIndex] || product.images[0]}
+          src={product.images[activeImageIndex] || product.thumbnail || product.images[0]}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          category={product.category}
+          subcategory={product.subcategory}
+          productName={product.name}
+          fit="contain"
+          className="w-full h-full group-hover:scale-105 transition-transform duration-500"
           fallbackText={product.name}
         />
 

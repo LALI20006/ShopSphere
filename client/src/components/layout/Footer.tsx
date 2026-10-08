@@ -147,18 +147,28 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5">
               <li>
-                <Link to="/category/mobiles-computers" className="hover:text-white transition-colors">
-                  Mobiles & Computing
+                <Link to="/category/electronics" className="hover:text-white transition-colors">
+                  Electronics & TVs
                 </Link>
               </li>
               <li>
-                <Link to="/category/tv-appliances-electronics" className="hover:text-white transition-colors">
-                  TVs & Soundbars
+                <Link to="/category/mobiles" className="hover:text-white transition-colors">
+                  Flagship Mobiles
                 </Link>
               </li>
               <li>
-                <Link to="/category/mens-fashion" className="hover:text-white transition-colors">
-                  Men's & Women's Fashion
+                <Link to="/category/laptops" className="hover:text-white transition-colors">
+                  Laptops & Ultrabooks
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/fashion" className="hover:text-white transition-colors">
+                  Fashion & Apparel
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/shoes" className="hover:text-white transition-colors">
+                  Shoes & Footwear
                 </Link>
               </li>
               <li>

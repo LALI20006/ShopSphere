@@ -170,9 +170,13 @@ export const CartPage: React.FC = () => {
                     className="w-full sm:w-32 h-32 flex-shrink-0 bg-slate-50 rounded-xl overflow-hidden border border-slate-100 flex items-center justify-center"
                   >
                     <ImageWithFallback
-                      src={item.product.images[0]}
+                      src={item.product.thumbnail || item.product.images[0]}
                       alt={item.product.name}
-                      className="w-full h-full object-contain p-2 hover:scale-105 transition-transform duration-300"
+                      category={item.product.category}
+                      subcategory={item.product.subcategory}
+                      productName={item.product.name}
+                      fit="contain"
+                      className="w-full h-full p-2 hover:scale-105 transition-transform duration-300"
                     />
                   </Link>
 
@@ -320,9 +324,13 @@ export const CartPage: React.FC = () => {
                       <div className="flex items-center gap-3 w-full sm:w-auto">
                         <div className="w-16 h-16 bg-slate-50 rounded-xl overflow-hidden flex-shrink-0">
                           <ImageWithFallback
-                            src={item.product.images[0]}
+                            src={item.product.thumbnail || item.product.images[0]}
                             alt={item.product.name}
-                            className="w-full h-full object-contain p-1"
+                            category={item.product.category}
+                            subcategory={item.product.subcategory}
+                            productName={item.product.name}
+                            fit="contain"
+                            className="w-full h-full p-1"
                           />
                         </div>
                         <div>

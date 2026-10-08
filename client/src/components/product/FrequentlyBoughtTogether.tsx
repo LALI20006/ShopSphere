@@ -74,9 +74,13 @@ export const FrequentlyBoughtTogether: React.FC<FrequentlyBoughtTogetherProps> =
         <div className="flex items-center gap-3">
           <div className="w-24 h-24 rounded-xl bg-white border border-slate-200 p-2 overflow-hidden shadow-sm shrink-0">
             <ImageWithFallback
-              src={mainProduct.images[0]}
+              src={mainProduct.thumbnail || mainProduct.images[0]}
               alt={mainProduct.name}
-              className="w-full h-full object-contain"
+              category={mainProduct.category}
+              subcategory={mainProduct.subcategory}
+              productName={mainProduct.name}
+              fit="contain"
+              className="w-full h-full"
               fallbackText={mainProduct.name}
             />
           </div>
@@ -91,9 +95,13 @@ export const FrequentlyBoughtTogether: React.FC<FrequentlyBoughtTogetherProps> =
             }`}
           >
             <ImageWithFallback
-              src={companionProduct.images[0]}
+              src={companionProduct.thumbnail || companionProduct.images[0]}
               alt={companionProduct.name}
-              className="w-full h-full object-contain"
+              category={companionProduct.category}
+              subcategory={companionProduct.subcategory}
+              productName={companionProduct.name}
+              fit="contain"
+              className="w-full h-full"
               fallbackText={companionProduct.name}
             />
           </div>

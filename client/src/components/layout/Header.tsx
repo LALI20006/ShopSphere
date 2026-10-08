@@ -373,73 +373,16 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Today's Deals</span>
           </Link>
 
-          {/* Quick Category Direct Links */}
-          <Link
-            to="/category/mobiles-computers"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Mobiles, Computers
-          </Link>
-          <Link
-            to="/category/tv-appliances-electronics"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            TV, Appliances, Electronics
-          </Link>
-          <Link
-            to="/category/mens-fashion"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Men's Fashion
-          </Link>
-          <Link
-            to="/category/womens-fashion"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Women's Fashion
-          </Link>
-          <Link
-            to="/category/home-kitchen-pets"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Home, Kitchen, Pets
-          </Link>
-          <Link
-            to="/category/beauty-health-grocery"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Beauty, Health, Grocery
-          </Link>
-          <Link
-            to="/category/sports-fitness-bags-luggage"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Sports & Fitness
-          </Link>
-          <Link
-            to="/category/toys-baby-kids"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Toys, Baby & Kids
-          </Link>
-          <Link
-            to="/category/car-motorbike-industrial"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Car, Motorbike, Industrial
-          </Link>
-          <Link
-            to="/category/books"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Books
-          </Link>
-          <Link
-            to="/category/movies-music-video-games"
-            className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
-          >
-            Movies, Music & Games
-          </Link>
+          {/* Dynamic 11 Category Direct Links */}
+          {categories.map((cat) => (
+            <Link
+              key={cat.id}
+              to={`/category/${cat.slug}`}
+              className="px-2.5 py-1 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors"
+            >
+              {cat.name}
+            </Link>
+          ))}
         </div>
       </div>
     </header>
